@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Amazon Web Services (AWS) - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2016/12/15/Amazon-Web-Services-AWS/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/datacenter.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                    </div>
+                    <h1>Amazon Web Services (AWS)</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        15/12/2016
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Amazon Web Services, ou apenas AWS Amazon, é uma plataforma de serviços em nuvem onde disponibiliza inúmeros produtos para resolver diferentes problemas de aplicações em nuvem.</p>
+<p>Irei explicar todos os produtos dessa plataforma com exemplos de implementação, a fim de documentar de forma introdutória as possibilidades que temos com ela. Outro motivo de escrever sobre os produtos é praticar e aprender um pouco mais sobre os benefícios e recursos que esta plataforma oferece. Pretendo escrever também sobre outras plataformas com Azure, Heroku, Google, IBM, etc!</p>
+<p>Segundo o site da AWS:</p>
+<blockquote>
+<p>A Amazon Web Services (AWS) é uma plataforma de serviços em nuvem segura, oferecendo poder computacional, armazenamento de banco de dados, distribuição de conteúdo e outras funcionalidades para ajudar as empresas em seu dimensionamento e crescimento. Explore como milhões de clientes estão utilizando os produtos e as soluções na Nuvem AWS e soluções para construir aplicações sofisticadas com mais flexibilidade, escalabilidade e confiabilidade.</p>
+</blockquote>
+<h2 id="Preco"><a href="#Preco" class="headerlink" title="Preço"></a>Preço</h2><p>AWS cobra por hora em alguns produtos e por consumo em outros. A AWS também oferece um nível gratuito que é de 12 meses após o cadastro na plataforma, porém existem limitações. Por exemplo o produto EC2, máquina virtual, você tem no plano gratuito 750 horas de instância de 1 giga de memória com Linux ou Windows.</p>
+<h2 id="Produtos"><a href="#Produtos" class="headerlink" title="Produtos"></a>Produtos</h2><p>Conforme vou escrevendo sobre os produtos irei linkando os posts nos títulos abaixo:</p>
+<p>AWS divide seus produtos em categorias como:</p>
+<h4 id="Computacao"><a href="#Computacao" class="headerlink" title="Computação"></a>Computação</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/2016/12/16/Amazon-EC2">Amazon EC2</a></td>
+<td><em>Servidores virtuais na nuvem</em></td>
+</tr>
+<tr>
+<td>Amazon EC2 Container Registry</td>
+<td><em>Armazenar e recuperar imagens do Docker</em></td>
+</tr>
+<tr>
+<td>Amazon EC2 Container Service</td>
+<td><em>Executar e gerenciar contêineres do Docker</em></td>
+</tr>
+<tr>
+<td><a href="/2017/01/13/Amazon-Lightsail/">Amazon Lightsail</a></td>
+<td><em>Execute e gerencie servidores privados virtuais</em></td>
+</tr>
+<tr>
+<td>Amazon VPC</td>
+<td><em>Recursos de nuvem isolados</em></td>
+</tr>
+<tr>
+<td>AWS Batch</td>
+<td><em>Execute trabalhos em lote em qualquer escala</em></td>
+</tr>
+<tr>
+<td>AWS Elastic Beanstalk</td>
+<td><em>Executar e gerenciar aplicativos da Web</em></td>
+</tr>
+<tr>
+<td><a href="/2017/01/12/AWS-Lambda">AWS Lambda</a></td>
+<td><em>Execute seu código em resposta a eventos</em></td>
+</tr>
+<tr>
+<td>Auto Scaling</td>
+<td><em>Elasticidade automática</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Armazenamento"><a href="#Armazenamento" class="headerlink" title="Armazenamento"></a>Armazenamento</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/2017/01/02/Amazon-S3/">Amazon S3</a></td>
+<td><em>Armazenamento escalável em nuvem</em></td>
+</tr>
+<tr>
+<td>Amazon EBS</td>
+<td><em>Block Storage para EC2</em></td>
+</tr>
+<tr>
+<td>Amazon Elastic File System</td>
+<td><em>Armazenamento gerenciado de arquivos do EC2</em></td>
+</tr>
+<tr>
+<td>Amazon Glacier</td>
+<td><em>Armazenamento de arquivos com baixo custo na nuvem</em></td>
+</tr>
+<tr>
+<td>AWS Storage Gateway</td>
+<td><em>Integração de armazenamento híbrido</em></td>
+</tr>
+<tr>
+<td>AWS Snowball</td>
+<td><em>Transporte de dados na escala de petabytes</em></td>
+</tr>
+<tr>
+<td>AWS Snowball Edge</td>
+<td><em>Transporte de dados na escala de petabytes com computação integrada</em></td>
+</tr>
+<tr>
+<td>AWS Snowmobile</td>
+<td><em>Transporte de dados na escala de exabytes</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Banco-de-dados"><a href="#Banco-de-dados" class="headerlink" title="Banco de dados"></a>Banco de dados</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon Aurora</td>
+<td><em>Banco de dados relacional gerenciado de alto desempenho</em></td>
+</tr>
+<tr>
+<td>Amazon RDS</td>
+<td><em>Serviço de banco de dados relacional gerenciado para MySQL, PostgreSQL, Oracle, SQL Server e MariaDB</em></td>
+</tr>
+<tr>
+<td><a href="/2017/01/03/Amazon-DynamoDB/">Amazon DynamoDB</a></td>
+<td><em>Banco de dados NoSQL gerenciado</em></td>
+</tr>
+<tr>
+<td>Amazon ElastiCache</td>
+<td><em>Sistema de cache de memória</em></td>
+</tr>
+<tr>
+<td>Amazon Redshift</td>
+<td><em>Data warehousing rápido, simples e econômico</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Migracao"><a href="#Migracao" class="headerlink" title="Migração"></a>Migração</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AWS Database Migration Service</td>
+<td><em>Migre bancos de dados com tempo de inatividade mínimo</em></td>
+</tr>
+<tr>
+<td>AWS Server Migration Service</td>
+<td><em>Migre servidores locais para a AWS</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Redes-e-entrega-de-conteudo"><a href="#Redes-e-entrega-de-conteudo" class="headerlink" title="Redes e entrega de conteúdo"></a>Redes e entrega de conteúdo</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon CloudFront</td>
+<td><em>Rede de entrega de conteúdo global</em></td>
+</tr>
+<tr>
+<td><a href="/2017/01/05/Amazon-Route-53/">Amazon Route 53</a></td>
+<td><em>Sistema de nomes de domínio escalável</em></td>
+</tr>
+<tr>
+<td>AWS Direct Connect</td>
+<td><em>Conexão de rede dedicada à AWS</em></td>
+</tr>
+<tr>
+<td>Elastic Load Balancing</td>
+<td><em>Balanceamento de carga em alta escala</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Ferramentas-de-desenvolvedor"><a href="#Ferramentas-de-desenvolvedor" class="headerlink" title="Ferramentas de desenvolvedor"></a>Ferramentas de desenvolvedor</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AWS CodeCommit</td>
+<td><em>Armazene código em repositórios Git privados</em></td>
+</tr>
+<tr>
+<td>AWS CodeBuild</td>
+<td><em>Crie e teste código</em></td>
+</tr>
+<tr>
+<td>AWS CodeDeploy</td>
+<td><em>Automatize a implantação de códigos</em></td>
+</tr>
+<tr>
+<td>AWS CodePipeline</td>
+<td><em>Faça o lançamento de softwares usando a distribuição contínua</em></td>
+</tr>
+<tr>
+<td>AWS X-Ray</td>
+<td><em>Analise e depure suas aplicações</em></td>
+</tr>
+<tr>
+<td>Interface da linha de comando da AWS</td>
+<td><em>Ferramenta unificada para gerenciar Serviços da AWS</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Ferramentas-de-gerenciamento"><a href="#Ferramentas-de-gerenciamento" class="headerlink" title="Ferramentas de gerenciamento"></a>Ferramentas de gerenciamento</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon CloudWatch</td>
+<td><em>Monitore recursos e aplicações</em></td>
+</tr>
+<tr>
+<td>Amazon EC2 Systems Manager</td>
+<td><em>Configure e gerencie instâncias EC2 e servidores locais</em></td>
+</tr>
+<tr>
+<td>AWS CloudFormation</td>
+<td><em>Crie e gerencie recursos com modelos</em></td>
+</tr>
+<tr>
+<td>AWS CloudTrail</td>
+<td><em>Rastreie atividades de usuário e uso de APIs</em></td>
+</tr>
+<tr>
+<td>AWS Config</td>
+<td><em>Rastreie inventário e alterações de recursos</em></td>
+</tr>
+<tr>
+<td>AWS OpsWorks</td>
+<td><em>Automatize operações usando o Chef</em></td>
+</tr>
+<tr>
+<td>AWS Service Catalog</td>
+<td><em>Crie e use produtos padronizados</em></td>
+</tr>
+<tr>
+<td>AWS Trusted Advisor</td>
+<td><em>Otimize o desempenho e a segurança</em></td>
+</tr>
+<tr>
+<td>AWS Personal Health Dashboard</td>
+<td><em>Visualização personalizada da saúde de Serviços da AWS</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Seguranca-identidade-e-conformidade"><a href="#Seguranca-identidade-e-conformidade" class="headerlink" title="Segurança, identidade e conformidade"></a>Segurança, identidade e conformidade</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/2017/01/03/AWS-Identity-Access-Management/">AWS Identity &amp; Access Management</a></td>
+<td><em>Gerencie o acesso de usuário e as chaves de criptografia</em></td>
+</tr>
+<tr>
+<td>Amazon Inspector</td>
+<td><em>Analise a segurança do aplicativo</em></td>
+</tr>
+<tr>
+<td><a href="/2017/01/11/AWS-Certificate-Manager/">AWS Certificate Manager</a></td>
+<td><em>Provisione, gerencie e implante certificados SSL/TLS</em></td>
+</tr>
+<tr>
+<td>AWS CloudHSM</td>
+<td><em>Armazenamento de chaves baseado em hardware para conformidade normativa</em></td>
+</tr>
+<tr>
+<td>AWS Directory Service</td>
+<td><em>Hospede e gerencie o Active Directory</em></td>
+</tr>
+<tr>
+<td>AWS Key Management Service</td>
+<td><em>Criação e controle gerenciados de chaves de criptografia</em></td>
+</tr>
+<tr>
+<td>AWS Organizations</td>
+<td><em>Gerencie as definições de várias contas</em></td>
+</tr>
+<tr>
+<td>AWS Shield</td>
+<td><em>Proteção contra DDoS</em></td>
+</tr>
+<tr>
+<td>AWS WAF</td>
+<td><em>Filtre tráfego da web mal-intencionado</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Analise"><a href="#Analise" class="headerlink" title="Análise"></a>Análise</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon Athena</td>
+<td><em>Consulte dados no S3 usando SQL</em></td>
+</tr>
+<tr>
+<td>Amazon EMR</td>
+<td><em>Estrutura de Hadoop hospedada</em></td>
+</tr>
+<tr>
+<td>Amazon CloudSearch</td>
+<td><em>Serviço de pesquisa gerenciada</em></td>
+</tr>
+<tr>
+<td>Amazon Elasticsearch Service</td>
+<td><em>Execute e escale clusters do Elasticsearch</em></td>
+</tr>
+<tr>
+<td>Amazon Kinesis</td>
+<td><em>Trabalhe com dados de streaming em tempo real</em></td>
+</tr>
+<tr>
+<td>Amazon Quicksight</td>
+<td><em>Serviço rápido de análise empresarial</em></td>
+</tr>
+<tr>
+<td>AWS Data Pipeline</td>
+<td><em>Serviço de orquestração para fluxos de trabalho periódicos e direcionados a dados</em></td>
+</tr>
+<tr>
+<td>AWS Glue</td>
+<td><em>Prepare e carregue dados</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Inteligencia-Artificial"><a href="#Inteligencia-Artificial" class="headerlink" title="Inteligência Artificial"></a>Inteligência Artificial</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon Lex</td>
+<td><em>Crie chatbots de voz e texto</em></td>
+</tr>
+<tr>
+<td>Amazon Polly</td>
+<td><em>Transforme texto em falas realistas</em></td>
+</tr>
+<tr>
+<td>Amazon Rekognition</td>
+<td>Pesquise e analise imagens*</td>
+</tr>
+<tr>
+<td>Amazon Machine Learning</td>
+<td><em>Aprendizagem de máquina para desenvolvedores</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Servicos-moveis"><a href="#Servicos-moveis" class="headerlink" title="Serviços móveis"></a>Serviços móveis</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AWS Mobile Hub</td>
+<td><em>Crie, teste e monitore aplicações</em></td>
+</tr>
+<tr>
+<td><a href="/2017/01/06/Amazon-API-Gateway/">Amazon API Gateway</a></td>
+<td><em>Crie, implante e gerencie APIs</em></td>
+</tr>
+<tr>
+<td>Amazon Cognito</td>
+<td><em>Sincronização de identidades de usuário e dados de aplicativos</em></td>
+</tr>
+<tr>
+<td>Amazon Pinpoint</td>
+<td><em>Notificações por push para aplicações móveis</em></td>
+</tr>
+<tr>
+<td>AWS Device Farm</td>
+<td><em>Teste aplicativos Android, FireOS e iOS em dispositivos reais na nuvem</em></td>
+</tr>
+<tr>
+<td>AWS Mobile SDK</td>
+<td><em>Kit de desenvolvimento de software móvel</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Servicos-de-aplicacao"><a href="#Servicos-de-aplicacao" class="headerlink" title="Serviços de aplicação"></a>Serviços de aplicação</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AWS Step Functions</td>
+<td><em>Coordene aplicações distribuídas</em></td>
+</tr>
+<tr>
+<td>Amazon Elastic Transcoder</td>
+<td><em>Transcodificação de mídia escalável e fácil de usar</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Sistema-de-mensagens"><a href="#Sistema-de-mensagens" class="headerlink" title="Sistema de mensagens"></a>Sistema de mensagens</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon SQS</td>
+<td><em>Serviço de enfileiramento de mensagens</em></td>
+</tr>
+<tr>
+<td>Amazon SNS</td>
+<td><em>Serviço de envio de notificações</em></td>
+</tr>
+<tr>
+<td>Amazon SES</td>
+<td><em>Serviço de envio e recebimento de e-mails</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Produtividade-empresarial"><a href="#Produtividade-empresarial" class="headerlink" title="Produtividade empresarial"></a>Produtividade empresarial</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon WorkDocs</td>
+<td><em>Serviço de armazenamento e compartilhamento empresarial</em></td>
+</tr>
+<tr>
+<td>Amazon WorkMail</td>
+<td><em>E-mail e calendário empresarial seguro e gerenciado</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Streaming-de-desktop-e-aplicacoes"><a href="#Streaming-de-desktop-e-aplicacoes" class="headerlink" title="Streaming de desktop e aplicações"></a>Streaming de desktop e aplicações</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon WorkSpaces</td>
+<td><em>Serviço de computação de desktop</em></td>
+</tr>
+<tr>
+<td>Amazon AppStream 2.0</td>
+<td><em>Faça o streaming de aplicações de desktop de modo seguro para o navegador</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Internet-das-Coisas"><a href="#Internet-das-Coisas" class="headerlink" title="Internet das Coisas"></a>Internet das Coisas</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma do AWS IoT</td>
+<td><em>Conecte dispositivos à nuvem</em></td>
+</tr>
+<tr>
+<td>AWS Greengrass</td>
+<td><em>Computação, sistema de mensagens e sincronização locais para dispositivos</em></td>
+</tr>
+<tr>
+<td>Botão do AWS IoT</td>
+<td><em>Versão do Dash Button programável na nuvem</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="Desenvolvimento-de-jogos"><a href="#Desenvolvimento-de-jogos" class="headerlink" title="Desenvolvimento de jogos"></a>Desenvolvimento de jogos</h4><table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon Lumberyard</td>
+<td><em>Um mecanismo de jogos 3D gratuito para várias plataformas, com código-fonte completo e integrado à AWS e ao Twitch</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="Regioes"><a href="#Regioes" class="headerlink" title="Regiões"></a>Regiões</h2><p>AWS tem servidores em várias regiões pelo mundo, e isso influencia o preço dos produtos, pois geralmente você escolhe a região onde seu produto irá rodar, influenciando também a latência do acesso. No dia que foi escrito este post as regiões eram:</p>
+<ul>
+<li><strong><em>Oeste dos EUA</em></strong> (Oregon, Califórnia)</li>
+<li><strong><em>Leste dos EUA</em></strong> (Virgínia, Ohio)</li>
+<li><strong><em>Canadá</em></strong> (Central)</li>
+<li><strong><em>América do Sul</em></strong> (São Paulo)</li>
+<li><strong><em>Europa</em></strong> (Dublin, Frankfurt, Londres)</li>
+<li><strong><em>Ásia-Pacífico</em></strong> (Seul, Cingapura, Sydney, Tóquio)</li>
+<li><strong><em>China</em></strong> (Pequim)</li>
+</ul>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/12/16/Amazon-EC2/" data-toggle="tooltip" data-placement="top" title="Amazon EC2">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/11/26/Palestra-DevParanaConf2016-apps-hibridos/" data-toggle="tooltip" data-placement="top" title="Palestra DevParanaConf2016 apps hibridos">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

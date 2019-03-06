@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Amazon API Gateway - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2017/01/06/Amazon-API-Gateway/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/devloper-api-background3.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#amazon api gateway" title="amazon api gateway">amazon api gateway</a>
+                        
+                    </div>
+                    <h1>Amazon API Gateway</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        06/01/2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Quando se trabalha com micro serviços, algo comum hoje em dia, uma dúvida frequente é como gerenciar as diferentes chamadas e integrar diferentes serviços para uma aplicação. Uma forma simples é ter uma camada conhecida como API Gateway onde todos os processos de entrada são roteados e gerenciado, veja o exemplo abaixo:</p>
+<p><img src="/img/microservices-architecture.png" alt=""></p>
+<p>O <a href="https://aws.amazon.com/pt/api-gateway/" target="_blank" rel="noopener">Amazon API Gateway</a> é um serviço totalmente gerenciado que permite que desenvolvedores criem, publiquem, mantenham, monitorem e protejam APIs em qualquer escala. Com apenas alguns cliques no Console de Gerenciamento da AWS, você pode criar uma API que atua como uma “porta de entrada” para que aplicativos acessem dados, lógica de negócios ou funcionalidades a partir de serviços de back-end, como cargas de trabalho executadas no Amazon Elastic Compute Cloud (Amazon EC2), código executado no AWS Lambda ou qualquer aplicação web. O Amazon API Gateway processa todas as tarefas relacionadas à aceitação e ao processamento de até centenas de milhares de chamadas simultâneas de APIs, incluindo gerenciamento de tráfego, autorização e controle de acesso, monitoramento e gerenciamento de versões de APIs. O Amazon API Gateway não tem taxas mínimas ou custos antecipados. Você paga apenas pelas chamadas de API recebidas e pela quantidade transferida de dados de saída.</p>
+<p>Os principais benefícios são o custo baixo e a escalabilidade que é automática.</p>
+<h2 id="Preco"><a href="#Preco" class="headerlink" title="Preço"></a>Preço</h2><p>Amazon API Gateway, cobra apenas quando suas APIs são usadas. Não há taxas mínimas e nem compromissos iniciais. Você paga apenas pelas chamadas de API recebidas e pela quantidade transferida de dados de saída. O Amazon API Gateway também oferece a opção de armazenar dados em cache mediante uma taxa horária que varia de acordo com o tamanho de cache selecionado. O nível gratuito do API Gateway inclui <strong>um milhão de chamadas</strong> de API por mês durante até 12 meses.</p>
+<p>Como os demais serviços o preço leva em consideração a localização onde foi criado sua API, como comentado no <a href="/2016/12/15/Amazon-Web-Services-AWS/#Regioes">post sobre AWS</a>, então vamos exemplificar que foi criado uma nova API nos EUA (Norte da Virginia) sendo assim o custo será:</p>
+<p><strong>Chamadas de APIs</strong><br>3,50 USD por milhão de chamadas de API recebidas, mais o custo de transferência de dados de saída em gigabytes.</p>
+<p><strong>Custos de transferência de dados</strong><br>Se você usar o Amazon API Gateway, será cobrado pelas chamadas de APIs e pelas transferências de dados para a Internet da forma descrita a seguir.</p>
+<p>Taxas de transferência de dados de saída do Amazon API Gateway</p>
+<p>0,09 USD/GB para os primeiros 10 TB<br>0,085 USD/GB para os próximos 40 TB<br>0,07 USD/GB para os próximos 100 TB<br>0,05 USD/GB para os próximos 350 TB</p>
+<h2 id="Pratica"><a href="#Pratica" class="headerlink" title="Prática"></a>Prática</h2><p>Acesasndo o serviço via Console e clicando em Create new API você deverá informar se vai criar uma API nova, se vai clonar alguma API já existente, se vai importar de uma estrutura JSON do Swagger ou se vai criar com base em um exemplo disponibilizado pela AWS.</p>
+<p>Para praticar vou criar um do zero para fazer algumas consultas a aplicação exemplo que venho usando nos demais post <a href="https://loremchat.com" target="_blank" rel="noopener">(https://loremchat.com)</a>:</p>
+<p><img src="/img/apigateway2.jpg" alt=""></p>
+<p>API Gateway é composta por conjuntos de recursos “Resources” e métodos “Method”. Um Resource é uma entidade lógica que pode ser acessada através de um caminho de API.Um recurso pode ter uma ou mais operações que são definidas por operações HTTP, como GET, POST e DELETE. Uma combinação de Resource e uma operação identifica um método na API. Cada método corresponde a uma solicitação de API REST.<br>Em cada método você pode configurar e mapear os dados de entreda para um destino como uma aplicação de backend rodando em uma instância EC2 ou executar uma função no AWS Lambda.</p>
+<p>Por padrão já temos um resource criado para responder ao link raiz “/“, sendo assim vamos criar um método GET para retornar uma HTML de boas vindas. Clique em Actions &gt; Create Method:</p>
+<p><img src="/img/apigateway3.jpg" alt=""></p>
+<p>Ao criar o método precisamos definir a forma de integração deste método podendo ser uma função lambda, uma requisição HTTP, um mock ou um serviço específico da AWS, iremos testar todos as opções mas para esta rota vamos escolher Mock pois iremos retornar algo estático (HTML):</p>
+<p><img src="/img/apigateway4.jpg" alt=""></p>
+<p>Todos os métodos tem as ações de:</p>
+<ul>
+<li><strong>Method Request</strong>: Informações sobre as configurações de autorização deste método e os parâmetros que ele pode receber.</li>
+<li><strong>Integration Request</strong>: Fornecer informações sobre o backend de destino que esse método chamará e se os dados de solicitação de entrada devem ser modificados.</li>
+<li><strong>Integration Response</strong>: Primeiro, declare tipos de resposta usando Method Response. Em seguida, mapeie as possíveis respostas do backend para os tipos de resposta deste método.</li>
+<li><strong>Method Response</strong>: Fornecer informações sobre os tipos de resposta deste método, seus cabeçalhos e tipos de conteúdo.</li>
+</ul>
+<p><img src="/img/apigateway5.jpg" alt=""></p>
+<p>Para nossa rota de Mock com boas vindas não precisamos configurar nenhum parametro do Request e sim apenas o Response para retornar o html, para isso clique em “Integration Response” &gt; Expanda Expanda “Body Mapping Templates” e exclua o Content-Type existente e crie um com o tipo text/html. No template vamos usar colocar um html simples.</p>
+<p><img src="/img/apigateway7.jpg" alt=""></p>
+<p>Agora precisamos espeficicar que o tipo do retorno é html e excluir o modelo do corpo, pois o próprio navegador irá interpletar o body com base no tipo do cabeçalho. Para isso clique em “Method Response” &gt; Expanda o status 200 &gt; exclua o “Response Body for 200” e adicione o Content-Type do tipo text/html para o “Response Headers for 200”:</p>
+<p><img src="/img/apigateway8.jpg" alt=""></p>
+<p>Por fim volte ao “Integration Response” para editar o “Header Mappings”, pois acabamos de definir um parametro no passo anterior, para isso precisamos espeficicar que é um text/html. Expanda o “Header Mappings” e edite o Content-Type para ‘text/html’ (com aspas simples):</p>
+<p><img src="/img/apigateway9.jpg" alt=""></p>
+<p>Se clicar em “Test” você poderá ver o HTML retornado porem ainda não esta acessível por link nossa API. Para tornar visível nossa API precisamos fazer o Deploy, ou seja, liberar para produção. Vá em Actions &gt; Deploy API. Neste momento será exigido um “stage”, isto é útil para deferentes estágil da API, como por bla.com/producao, bla.com/homologacao, etc. Crie um novo stage e clique em Deploy:</p>
+<p><img src="/img/apigateway10.jpg" alt=""></p>
+<p>Acessando o link veremos o resultado do nosso método GET na raiz “/“ da API.</p>
+<h3 id="Customizando-dominio"><a href="#Customizando-dominio" class="headerlink" title="Customizando domínio"></a>Customizando domínio</h3><p>Podemos ver que a url gerada para nossa API não é amigável, podemos resolver isso facilmente customizando um nome de domínio, ou seja, nossa API irá responder ao domínio api.loremchat.com.</p>
+<p>Primeiro passo importante é saber que o serviço API Gateway só responde a domínio com certificado (https) e para isso precisamos do certificado para o domínio que queremos responder.</p>
+<blockquote>
+<p>No momento em que foi escrito este post o AWS Certificate Manager não dava suporte ao API Gateway então por este motivos vamos usar um certificado SSL gratuito.</p>
+</blockquote>
+<p>Crie um certificado SSL através do Let’s encrypt seguindo o post sobre <a href="/2017/01/11/Criar-certificado-SSL-HTTPS-com-Let-s-encrypt/">Criar certificado SSL (HTTPS) com Let’s encrypt</a> em seguida em “Custom Domain Names” preencha com as informações do certificado gerado.</p>
+<p><strong>Certificate Body</strong> é a primeira parte do <code>domain-crt.txt</code>:</p>
+<p><img src="/img/apigateway11.jpg" alt=""></p>
+<p><strong>Certificate chain</strong> é a segunda parte do <code>domain-crt.txt</code>:</p>
+<p><img src="/img/apigateway14.jpg" alt=""></p>
+<p>E <strong>Certificate private key</strong> é o <code>domain-key.txt</code>.<br>Com todos os dados preenchidos basta clicar em “Save”:</p>
+<p><img src="/img/apigateway12.jpg" alt=""></p>
+<p>Ao ser criado você poderá ver o link que será gerado e uma mensagem dizendo que pode demorar até 40 minutos para que seu nome de domínio seja criado.</p>
+<p><img src="/img/apigateway13.jpg" alt=""></p>
+<p>Em seguida precisamos criar uma mapeamento do domínio para um “stage” da nossa API. Clique em “Create API mapping” &gt; deixe em branco o “Base path” e selecione a API e o stage. O Base Path é interessante quando você quer controlar a API por versão, por exemplo se informar “v1” em Base path o domínio final ficaria: api.loremchat.com/v1, mas neste caso vamos deixar em branco.</p>
+<p><img src="/img/apigateway15.jpg" alt=""></p>
+<p>Agora precisamos direcionar em nosso DNS o domínio api.loremchat.com para o domínio criado, no meu caso: <code>d3h243lydymgjd.cloudfront.net</code>. Se você estiver utilizando o Route 53 crie um novo registro da seguinte forma:</p>
+<p><img src="/img/apigateway16.jpg" alt=""></p>
+<p>Agora só aguardar o DNS ser propagado e você poderá ver sua API rodando com seu dominio e com SSL:</p>
+<p><img src="/img/apigateway17.jpg" alt=""></p>
+<p>Agora vamos criar um método GET que irá ser responsável por fazer uma requisição HTTP para outro endpoint, sendo assim nossa API só irá fazer a rota, porem com isso podemos controlar o acesso entre outros recursos que o API Gateway fornece:</p>
+<p><img src="/img/apigateway18.jpg" alt=""></p>
+<p>Após criado é necessário fazer o deploy para a API ser disponível, no fim teremos a nova rota funcionando:</p>
+<p><img src="/img/apigateway19.jpg" alt=""></p>
+<p>Outra método bem utilizado no API Gateway é criar uma rota para executar uma função do <a href="/2017/01/12/AWS-Lambda">AWS Lambda</a>, no exemplo abaixo criei uma rota para consumir uma função lambda que faz uma consulta ao banco <a href="/2017/01/03/Amazon-DynamoDB/">DynamoDB</a>:</p>
+<p>API Gateway - Criando o método:</p>
+<p><img src="/img/apigateway20.jpg" alt=""></p>
+<p>API Gateway - “Integration Request” &gt; Mapeando os paramens de envio. Veja a documentação oficial dos <a href="http://docs.aws.amazon.com/pt_br/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html" target="_blank" rel="noopener">possíveis mapeamento para mais detalhes</a>.</p>
+<p><img src="/img/apigateway21.jpg" alt=""></p>
+<p>AWS Lambda - Recebe o parametro da API e retorna o resultado da consulta do DynamoDB:</p>
+<p><img src="/img/apigateway22.jpg" alt=""></p>
+<p>Também é possível executar chamdas para os demais serviços da AWS, cada serviço tem uma fluxo de configuração diferente, você pode encontrar outros posts relacionados ao mesmo facilmente na web!</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/01/11/AWS-Certificate-Manager/" data-toggle="tooltip" data-placement="top" title="AWS Certificate Manager">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/01/05/Amazon-Route-53/" data-toggle="tooltip" data-placement="top" title="Amazon Route 53">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#amazon api gateway" title="amazon api gateway">amazon api gateway</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

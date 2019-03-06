@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Primeiros passos com MongoDB - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2018/09/05/Primeiros-passos-com-MongoDB/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/nosql.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#NoSQL" title="NoSQL">NoSQL</a>
+                        
+                          <a class="tag" href="/tags/#MongoDB" title="MongoDB">MongoDB</a>
+                        
+                          <a class="tag" href="/tags/#Primeiros passos" title="Primeiros passos">Primeiros passos</a>
+                        
+                    </div>
+                    <h1>Primeiros passos com MongoDB</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        05/09/2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>O MongoDB é um banco de dados não relacional poderoso e fácil de começar, tanto em nívem de instalação quanto em nível de utilização.</p>
+</blockquote>
+<h2 id="Documentos"><a href="#Documentos" class="headerlink" title="Documentos"></a>Documentos</h2><p>Podemos começar a entender o  MongoDB com seus documentos que são: um conjunto ordenado de chaves com valores associados. A representação de um documento varia de acordo com a linguagem de programação, mas a maioria das linguagens tem uma estrutura de dados que é um ajuste natural, como um mapa, hash ou dicionário. Em JavaScript, por exemplo, documentos são representados como objetos:</p>
+<p><code>{&quot;nome&quot; : &quot;Fábio Rogério&quot;}</code></p>
+<p>Este documento simples contém uma única chave, “nome”, com um valor de “Fábio Rogério”. A maioria dos documentos serão mais complexos do que esta simples e<br>irão conter vários pares de chave/valor:</p>
+<p><code>{&quot;nome&quot; : &quot;Fábio Rogério&quot;, &quot;ano_nascimento&quot; : 1986}</code></p>
+<p>As chaves em um documento são seqüências de caracteres. Qualquer caractere UTF-8 é permitido em uma chave, com algumas exceções:</p>
+<ul>
+<li>As chaves não devem conter o caractere \0 (caractere nulo). Este é usado para significar o fim de uma chave.</li>
+<li>O . e $ têm algumas propriedades especiais e devem ser usados apenas em<br>certas circunstâncias. Em geral, eles devem ser considerado reservado, e os drives irão reclamar se forem usados de forma inadequada.</li>
+</ul>
+<p>O MongoDB é sensível a maiúsculas e minúsculas. Uma última observação importante é que os documentos no MongoDB não podem conter chaves duplicadas. Por exemplo, o seguinte não é um documento legal:</p>
+<p><code>{&quot;nome&quot; : &quot;Fábio Rogério&quot;, &quot;nome&quot; : &quot;Silva José&quot;}</code></p>
+<p>Os pares chave/valor nos documentos são ordenados: <code>{&quot;x&quot;: 1, &quot;y&quot;: 2}</code> e não é o mesmo que<br><code>{&quot;y&quot;: 2, &quot;x&quot;: 1}</code>. Ordem de campo geralmente não importa e você não deve projetar seu esquema depende de uma certa ordenação de campos (o MongoDB pode reordená-los). </p>
+<h2 id="Colecoes"><a href="#Colecoes" class="headerlink" title="Coleções"></a>Coleções</h2><p>Uma coleção é um grupo de documentos. Sobre um documento podemos fazer uma analogia com um linha em um banco de dados relacional, logo uma coleção pode ser considerada como uma analogia a uma tabela.</p>
+<h3 id="Esquemas-Dinamicos"><a href="#Esquemas-Dinamicos" class="headerlink" title="Esquemas Dinâmicos"></a>Esquemas Dinâmicos</h3><p>Coleções têm esquemas dinâmicos. Isso significa que os documentos em uma única coleção podem ter qualquer número de diferentes “formas”. Por exemplo, Vamos analisar os dois documentos (linhas) abaixo e perceba que os dois podem ser armazenados na mesma coleção (tabela) e não iremos ter problema de esquema:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"nome"</span>: <span class="string">"Fábio Rogério"</span>, <span class="attr">"ano_nascimento"</span>: <span class="number">1986</span>&#125;</span><br><span class="line">&#123;<span class="attr">"nome"</span>: <span class="string">"Silva José"</span>, <span class="attr">"fone"</span>: <span class="string">"4498989898"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>Note que os documentos anteriores não só têm tipos diferentes para seus valores (string e integer) mas também tem chaves completamente diferentes. Porque qualquer documento pode ser colocado em qualquer coleção, muitas vezes surge a pergunta: “Por que precisamos de coleções separadas em tudo?” É uma boa pergunta - sem necessidade de esquemas separados para diferentes tipos de documentos, por que devemos usar mais de uma coleção? Existem vários bons razões:</p>
+<ul>
+<li>Manter diferentes tipos de documentos na mesma coleção pode ser um pesadelo para desenvolvedores e administradores. Os desenvolvedores precisam ter certeza de que cada consulta irá retornar apenas os documentos de um determinado tipo ou que o código do aplicativo de consulta pode manipular documentos de diferentes formas. Se estivermos perguntando por postagens de blog, é um incômodo eliminar documentos que contêm dados do autor.</li>
+<li>É muito mais rápido obter uma lista de coleções do que extrair uma lista dos tipos em um<br>coleção. Por exemplo, se tivéssemos um campo “tipo” em cada documento especificado<br>se o documento era um “usuario”, “cliente” ou “forneceder”, seria muito mais lento para encontrar esses três valores em uma única coleção do que ter três separados coleções e consulta a coleção correta.</li>
+<li>Agrupar documentos do mesmo tipo juntos na mesma coleção permite localidade dos dados. Obter várias postagens de blog de uma coleção contendo apenas postagens provavelmente exigem menos buscas de disco do que obter os mesmos posts de uma coleção de mensagens e dados do autor.</li>
+<li>Começamos a impor alguma estrutura em nossos documentos quando criamos índices.<br>(Isto é especialmente verdadeiro no caso de índices únicos.) Estes índices são definidos por<br>coleção. Colocando apenas documentos de um único tipo na mesma coleção, pode indexar nossas coleções de forma mais eficiente. Como você pode ver, existem razões sólidas para criar um esquema e para agrupar tipos de documentos juntos, mesmo que o MongoDB não o imponha.
+<h3 id="Nomeacao"><a href="#Nomeacao" class="headerlink" title="Nomeação"></a>Nomeação</h3>Uma coleção é identificada por seu nome. Os nomes das coleções podem ser qualquer string UTF-8, com algumas restrições:</li>
+<li>Uma string vazia (“”) não é um nome de coleção válido.</li>
+<li>Os nomes das coleções não podem conter caractere \0 (caractere nulo) porque isso delineia o final do nome de uma coleção.</li>
+<li>Você não deve criar nenhuma coleção que comece com system.algum_none ou um prefixo reservado para coleções internas. Por exemplo, a coleção system.users contém os usuários do banco de dados e a coleção system.namespaces contém informações sobre todos as coleções do banco de dados.</li>
+<li>As coleções criadas pelo usuário não devem conter o caractere reservado $ no nome.<br>Os vários drivers disponíveis para o banco de dados suportam usando $ em nomes de coleção porque algumas coleções geradas pelo sistema contêm isso. Você não deve usar $ em um nome, a menos que você esteja acessando uma dessas coleções.</li>
+</ul>
+<h4 id="Subcolecoes"><a href="#Subcolecoes" class="headerlink" title="Subcoleções"></a>Subcoleções</h4><p>Uma convenção para organizar coleções é usar subcoleções separadas por namespace<br>junto com o ponto (.). Por exemplo, um aplicativo contendo um blog pode ter um coleção chamada blog.posts e uma coleção separada chamada blog.authors. Isso é para apenas fins organizacionais - não há relação entre a coleção de blogs e não precisa nem existir) e seus “filhos”. Embora as subcoleções não tenham propriedades especiais, elas são úteis e incorpora/dividido em muitas ferramentas do MongoDB:</p>
+<ul>
+<li>GridFS, um protocolo para armazenar arquivos grandes, usa subcoleções para armazenar metadados de arquivos separadamente dos blocos de conteúdo.</li>
+</ul>
+<h3 id="Bancos-de-dados"><a href="#Bancos-de-dados" class="headerlink" title="Bancos de dados"></a>Bancos de dados</h3><p>Além de agrupar documentos por coleção, o MongoDB agrupa coleções em bases de dados. Uma única instância do MongoDB pode hospedar vários bancos de dados. Um banco de dados tem suas próprias permissões e cada banco de dados é armazenado em arquivos separados no disco. Uma boa regra é armazenar todos os dados para uma única<br>aplicação na mesma base de dados. Bancos de dados separados são úteis ao armazenar dados para vários aplicativos ou usuários no mesmo servidor MongoDB.</p>
+<p>Como coleções, os bancos de dados são identificados pelo nome. Nomes de banco de dados podem ser qualquer UTF-8 string, com as seguintes restrições:</p>
+<ul>
+<li>String vazia (“”) não é um nome de banco de dados válido.</li>
+<li>Um nome de banco de dados não pode conter nenhum desses caracteres: /, \,., “, *, &lt;,&gt;,:, |,?, $, (espaço único) ou \0 (caractere nulo). Basicamente, fique com ASCII alfanumérico.</li>
+<li>Os nomes dos bancos de dados fazem distinção entre maiúsculas e minúsculas, mesmo em sistemas de arquivos que não diferenciam maiúsculas de minúsculas. Manter coisas simples, tente usar apenas caracteres minúsculos.</li>
+<li>Os nomes dos bancos de dados estão limitados a um máximo de 64 bytes. Uma coisa a lembrar sobre nomes de banco de dados é que eles realmente acabam como arquivos no seu sistema de arquivos. Isso explica porque muitas das restrições anteriores existem.<br>Existem também vários nomes de bancos de dados reservados, que você pode acessar, mas que semântica especial. Estes são os seguintes:</li>
+</ul>
+<p><em>admin</em><br>Este é o banco de dados “root”, em termos de autenticação. Se um usuário é adicionado ao administrador banco de dados, o usuário herda automaticamente as permissões para todos os bancos de dados. tem também determinados comandos do servidor que podem ser executados somente a partir do banco de dados de administração, como listar todos os bancos de dados ou desligar o servidor.</p>
+<p><em>local</em><br>Este banco de dados nunca será replicado e pode ser usado para armazenar quaisquer coleções local para um único servidor.</p>
+<p><em>config</em><br>Quando o MongoDB está sendo usado em uma configuração compartilhada ele usa a configuração de banco de dados para armazenar informações sobre os fragmentos.</p>
+<p>Ao concatenar um nome de banco de dados com uma coleção nesse banco de dados, você pode obter um nome de coleção qualificado chamado namespace. Por exemplo, se você estiver usando o blog.posts no banco de dados “cms”, o namespace dessa coleção seria<br>cms.blog.posts. Os namespaces são limitados a 121 bytes de comprimento e, na prática,<br>ter menos de 100 bytes de comprimento.</p>
+<p>No próximo passo vamos instalar, configurar e iniciar o MongoDB.</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/03/06/Instalando-e-configurando-Android-SDK-para-projetos-Apache-Cordova-no-Linux/" data-toggle="tooltip" data-placement="top" title="Instalando e configurando Android SDK para projetos Apache Cordova no Linux">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/08/10/Conhecendo-o-banco-nao-relacional-MongoDB/" data-toggle="tooltip" data-placement="top" title="Conhecendo o banco não relacional MongoDB">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#NoSQL" title="NoSQL">NoSQL</a>
+                        
+                          <a class="tag" href="/tags/#MongoDB" title="MongoDB">MongoDB</a>
+                        
+                          <a class="tag" href="/tags/#Primeiros passos" title="Primeiros passos">Primeiros passos</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

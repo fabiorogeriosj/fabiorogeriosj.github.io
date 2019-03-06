@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          AWS Lambda - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2017/01/12/AWS-Lambda/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/microservices.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#aws lambda" title="aws lambda">aws lambda</a>
+                        
+                    </div>
+                    <h1>AWS Lambda</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        12/01/2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Um dos produtos atuais mais interessante, na minha opnião, que a Amazon lançou é o <a href="https://aws.amazon.com/pt/lambda/" target="_blank" rel="noopener">AWS Lambda</a>, pois com ele você pode executar código em resposta a eventos e não precisa se preocupar com a infraestrutura para provisionar o recurso necessário. Você pode usar o AWS Lambda para estender outros serviços da AWS com lógica personalizada ou criar seus próprios serviços de back-end que operam na escala, desempenho e segurança da AWS. O AWS Lambda pode executar automaticamente códigos em resposta a múltiplos eventos, como modificações a objetos em buckets do <a href="/2017/01/02/Amazon-S3/">Amazon S3</a> ou atualizações de tabela no <a href="/2017/01/03/Amazon-DynamoDB/">Amazon DynamoDB</a>.</p>
+<blockquote>
+<p>O Lambda executa seu código em infraestrutura de computação de alta disponibilidade e realiza toda a administração dos recursos de computação, incluindo manutenção de servidor e de sistema operacional, provisionamento de capacidade e escalabilidade automática, implementação de código e de patch de segurança e monitoramento e registro de código. Tudo o que você precisa fazer é fornecer o código.</p>
+</blockquote>
+<h3 id="Preco"><a href="#Preco" class="headerlink" title="Preço"></a>Preço</h3><p>A precificação também é interessante pois você é cobrado de acordo com o número de solicitações de funções e o tempo de execução do código.</p>
+<p>O nível gratuito do Lambda inclui 1 milhão de solicitações gratuitas por mês e 400.000 GB/segundo de tempo de computação por mês.</p>
+<h4 id="Solicitacoes"><a href="#Solicitacoes" class="headerlink" title="Solicitações"></a>Solicitações</h4><p>Você é cobrado pelo número total de solicitações em todas as suas funções. O Lambda conta uma solicitação cada vez que começa a executar em resposta a uma notificação de evento ou chamada de invocação, incluindo invocações de teste do console.</p>
+<p>O primeiro milhão de solicitações do por mês é gratuito<br>0,20  USD por 1 milhão de solicitações depois disso (0,0000002  USD por solicitação)</p>
+<h4 id="Duracao"><a href="#Duracao" class="headerlink" title="Duração"></a>Duração</h4><p>A duração é calculada a partir do momento em que seu código começa a ser executado até ele retornar ou encerrar, arredondando para os 100 m mais próximos. O preço depende da quantidade de memória que você alocar para sua função. Você é cobrado em 0,00001667  USD a cada GB/segundo usado.</p>
+<h4 id="Nivel-gratuito"><a href="#Nivel-gratuito" class="headerlink" title="Nível gratuito"></a>Nível gratuito</h4><p>O nível gratuito do Lambda inclui 1 milhão de solicitações gratuitas por mês e 400.000 GB/segundo de tempo de computação por mês. O tamanho da memória que você escolhe para suas funções do Lambda determina por quanto tempo elas podem ser executadas no nível gratuito. O nível gratuito do Lambda não expira automaticamente ao final do período de 12 meses do nível gratuito da AWS, ele fica disponível para os clientes novos e existentes indefinidamente.</p>
+<p>Você pode ver a tabela de preço e mais detalhes na <a href="https://aws.amazon.com/pt/lambda/pricing/" target="_blank" rel="noopener">página oficial do produto</a>, bem como simulações de cobranças.</p>
+<h2 id="Pratica"><a href="#Pratica" class="headerlink" title="Prática"></a>Prática</h2><p>Você pode executar uma função lambda apartir de alguns serviços específicos da plataforma como mostrado abaixo:</p>
+<p><img src="/img/lambda1.png" alt=""></p>
+<p>Vamos criar uma função para ser executada quando uma rota do serviço <a href="/2017/01/06/Amazon-API-Gateway/">API Gateway</a> for requisitado. Vamos seguir o projeto que já vem sendo criado nos demais posts sobre a plataforma AWS, o aplicativo demo <a href="https://loremchat.com" target="_blank" rel="noopener">https://loremchat.com</a>.</p>
+<p>Primeiro passo quando for criar uma nova função é escolher um modelo caso necessário, no nosso caso vamos escolher o modelo “Blank Function” pois não queremos exemplos de código:</p>
+<p><img src="/img/lambda2.png" alt=""></p>
+<p>No segundo passo podemos escolher o serviço que irá disparar o evento pra executar a função no Lambda, se for escolhido, por exemplo o API Gateway, ele irá criar uma nova rota no serviço de origem, mas para este posto não vamos escolher o serviço de origem, pois em outro momento vamos escolher esta função. Então no passo dois basta clicar em Next.</p>
+<p>No próximo passo temos que definir um nome para nossa função e o “Runtime” que iremos utilizar, ou seja a tecnologia/linguagem de programação. No Meu exemplo escolhi Node.js e meu código ficou assim:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> doc = <span class="built_in">require</span>(<span class="string">'dynamodb-doc'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dynamo = <span class="keyword">new</span> doc.DynamoDB();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> salas = [</span><br><span class="line">  &#123;</span><br><span class="line">    nome: <span class="string">'geral'</span>,</span><br><span class="line">    icone: <span class="string">'megaphone.png'</span>,</span><br><span class="line">    descricao: <span class="string">'Assunto geral que rola no mundo!'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    nome: <span class="string">'música'</span>,</span><br><span class="line">    icone: <span class="string">'headphones.png'</span>,</span><br><span class="line">    descricao: <span class="string">'Trocar ideias no estilo musical ;)'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    nome: <span class="string">'filme'</span>,</span><br><span class="line">    icone: <span class="string">'youtube.png'</span>,</span><br><span class="line">    descricao: <span class="string">'O que ta rolando sobre filmes, séries e novelas?'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    nome: <span class="string">'festa'</span>,</span><br><span class="line">    icone: <span class="string">'theater.png'</span>,</span><br><span class="line">    descricao: <span class="string">'Aquela festa animal! Onde? Quando? #bora!'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    nome: <span class="string">'viagem'</span>,</span><br><span class="line">    icone: <span class="string">'airplane.png'</span>,</span><br><span class="line">    descricao: <span class="string">'O mundo é grande de mais para ficar apenas em um lugar!'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    nome: <span class="string">'universidade'</span>,</span><br><span class="line">    icone: <span class="string">'mortarboard.png'</span>,</span><br><span class="line">    descricao: <span class="string">'Duas canetas um papel e bora pro papo de universitários :)'</span></span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">exports.handler = <span class="function">(<span class="params">event, context, callback</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> sala = event.url;</span><br><span class="line">    <span class="keyword">if</span>(!sala)&#123;</span><br><span class="line">        sala = <span class="string">"geral"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> heSalaOficial = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">var</span> salasPorLink = [];</span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> salas)&#123;</span><br><span class="line">      <span class="keyword">if</span>(salas[i].nome === sala)&#123;</span><br><span class="line">        salas[i].principal=<span class="literal">true</span>;</span><br><span class="line">        heSalaOficial=<span class="literal">true</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        salas[i].principal=<span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!heSalaOficial)&#123;</span><br><span class="line">      salasPorLink.push(&#123;</span><br><span class="line">        nome: sala,</span><br><span class="line">        icone: <span class="string">'target.png'</span>,</span><br><span class="line">        descricao: <span class="string">'Apenas os usuários que tiverem o link da sala poderam enviar mensagens.'</span>,</span><br><span class="line">        principal:<span class="literal">true</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> params = &#123;</span><br><span class="line">        TableName : <span class="string">"mensagens"</span>,</span><br><span class="line">        Limit: <span class="number">100</span>,</span><br><span class="line">        KeyConditionExpression: <span class="string">"#sala = :sala"</span>,</span><br><span class="line">        ExpressionAttributeNames:&#123;</span><br><span class="line">          <span class="string">"#sala"</span>: <span class="string">"sala"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        ExpressionAttributeValues: &#123;</span><br><span class="line">          <span class="string">":sala"</span>:sala</span><br><span class="line">        &#125;,</span><br><span class="line">        ScanIndexForward: <span class="literal">false</span></span><br><span class="line">    &#125;;</span><br><span class="line">    dynamo.query(params, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"dados&gt;&gt;&gt;&gt;"</span>, data);</span><br><span class="line">        <span class="keyword">var</span> html = <span class="string">""</span>;</span><br><span class="line">        html += <span class="string">"&lt;html&gt; "</span>;</span><br><span class="line">        html += <span class="string">"   &lt;head&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;meta charset='utf-8'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;meta name='viewport' content='width=device-width, initial-scale=1.0'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;title&gt;LoremChat&lt;/title&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;link href='https://assets.loremchat.com/css/estilo.css' rel='stylesheet'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"   &lt;/head&gt; "</span>;</span><br><span class="line">        html += <span class="string">"   &lt;body&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;div id='fb-root'&gt;&lt;/div&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;script src='https://connect.facebook.net/pt_BR/all.js'&gt;&lt;/script&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;div id='notificacao'&gt;&lt;img src='https://assets.loremchat.com/img/key-up.png'&gt; &lt;span&gt;x novas mensagens não lidas&lt;/span&gt;&lt;/div&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;div class='editor'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"        &lt;button id='lodin-fb' type='button'&gt;Logar com Facebook para enviar mensagens na sala &lt;strong&gt;"</span>+sala+<span class="string">"&lt;/strong&gt;&lt;/button&gt; "</span>;</span><br><span class="line">        html += <span class="string">"        &lt;span id='aviso'&gt;Para ver as mensagens em tempo real você precisa estar logado!&lt;/span&gt; "</span>;</span><br><span class="line">        html += <span class="string">"        &lt;input type='text' id='editor' disabled='true' placeholder='Entrando na sala "</span>+sala+<span class="string">"...' autofocus='true'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;/div&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;div class='chat'&gt; "</span>;</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> data.Items)&#123;</span><br><span class="line">            <span class="keyword">var</span> mensagem = data.Items[i];</span><br><span class="line">            html += <span class="string">"&lt;div class='mensagem' id='"</span>+mensagem.timestamp+<span class="string">"'&gt; "</span>;</span><br><span class="line">            html += <span class="string">"&lt;img src='"</span>+mensagem.usuario.photo+<span class="string">"'&gt;&lt;h1&gt;"</span>+mensagem.usuario.name+<span class="string">" &lt;span&gt;&lt;/span&gt;&lt;p&gt;"</span>+mensagem.mensagem+<span class="string">"&lt;/p&gt;&lt;/h1&gt;"</span>;</span><br><span class="line">            html += <span class="string">"&lt;/div&gt; "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        html += <span class="string">"&lt;/div&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;div class='salas'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"         &lt;img src='https://assets.loremchat.com/img/menu-button-of-three-horizontal-lines.png' id='iconmenu'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"         &lt;h2&gt;Salas oficiais&lt;/h2&gt; "</span>;</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> salas)&#123;</span><br><span class="line">            html += <span class="string">"         &lt;a href='/"</span>+salas[i].nome+<span class="string">"'&gt;&lt;div class='sala "</span>;</span><br><span class="line">            <span class="keyword">if</span>(salas[i].principal)&#123;</span><br><span class="line">                html += <span class="string">"principal"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            html += <span class="string">"'&gt; "</span>;</span><br><span class="line">            html += <span class="string">"               &lt;img src='https://assets.loremchat.com/img/"</span>+salas[i].icone+<span class="string">"'&gt; "</span>;</span><br><span class="line">            html += <span class="string">"               &lt;h1&gt; "</span>+salas[i].nome+<span class="string">" &lt;p&gt;"</span>+salas[i].descricao+<span class="string">"&lt;/p&gt; &lt;/h1&gt; "</span>;</span><br><span class="line">            html += <span class="string">"            &lt;/div&gt; "</span>;</span><br><span class="line">            html += <span class="string">"         &lt;/a&gt; "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!heSalaOficial)&#123;</span><br><span class="line">            html += <span class="string">" &lt;h2&gt;Salas por link&lt;/h2&gt; "</span>;   </span><br><span class="line">            <span class="keyword">for</span>(i <span class="keyword">in</span> salasPorLink)&#123;</span><br><span class="line">                html += <span class="string">" &lt;a href='/"</span>+salasPorLink[i].nome+<span class="string">"'&gt;&lt;div class='sala "</span>;</span><br><span class="line">                <span class="keyword">if</span>(salasPorLink[i].principal)&#123;</span><br><span class="line">                    html += <span class="string">"principal"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                html += <span class="string">"'&gt; "</span>;</span><br><span class="line">                html += <span class="string">"               &lt;img src='https://assets.loremchat.com/img/"</span>+salasPorLink[i].icone+<span class="string">"'&gt; "</span>;</span><br><span class="line">                html += <span class="string">"               &lt;h1&gt; "</span>+salasPorLink[i].nome+<span class="string">" &lt;p&gt;"</span>+salasPorLink[i].descricao+<span class="string">"&lt;/p&gt; &lt;/h1&gt; "</span>;</span><br><span class="line">                html += <span class="string">"            &lt;/div&gt; "</span>;</span><br><span class="line">                html += <span class="string">"         &lt;/a&gt; "</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        html += <span class="string">"         &lt;a onclick='criarNovaSala()' id='linkNovaSala' class='new'&gt;Criar uma sala&lt;/a&gt; "</span>;</span><br><span class="line">        html += <span class="string">"         &lt;h2 class='form'&gt;Crie sua sala&lt;/h2&gt; "</span>;</span><br><span class="line">        html += <span class="string">"         &lt;form id='formnovasala' method='GET' action='/' class='form'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"            &lt;input id='novasala' placeholder='Digite o nome da sala'&gt; "</span>;</span><br><span class="line">        html += <span class="string">"            &lt;p&gt;Apenas os usuários com o link desta sala poderam participar da conversa!&lt;/p&gt; "</span>;</span><br><span class="line">        html += <span class="string">"            &lt;button type='submit'&gt;Criar nova sala&lt;/button&gt; "</span>;</span><br><span class="line">        html += <span class="string">"         &lt;/form&gt; "</span>;</span><br><span class="line">        html += <span class="string">"         &lt;div id='footer'&gt;&lt;/div&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;/div&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;script src='https://assets.loremchat.com/js/jquery-3.1.1.min.js'&gt;&lt;/script&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;script src='https://assets.loremchat.com/js/moment.min.js'&gt;&lt;/script&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;script src='https://assets.loremchat.com/js/moment-with-locales.min.js'&gt;&lt;/script&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;script src='https://loremchat.herokuapp.com/socket.io/socket.io.js'&gt;&lt;/script&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;script&gt;var SOCKET_URL = 'https://loremchat.herokuapp.com'; &lt;/script&gt; "</span>;</span><br><span class="line">        html += <span class="string">"      &lt;script src='https://assets.loremchat.com/js/script.js'&gt;&lt;/script&gt; "</span>;</span><br><span class="line">        html += <span class="string">"   &lt;/body&gt; "</span>;</span><br><span class="line">        html += <span class="string">"&lt;/html&gt; "</span>;</span><br><span class="line">        callback(<span class="literal">null</span>, html);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>O código, embora ficou grande, é simples, apenas valida um parametro de entrada e faz uma consulta no banco DynamoDB e monta um HTML de retorno.</p>
+<p>Rolando a página você verá alguns parametros que devem ser revisados. Os mais importantes são o <strong>Role</strong> que é a permissão que será dada para que esta função seja executado por outros serviços, e o tamanho de memória que será utilizado para executar a função e o tempo máximo que pode demorar pra executar:</p>
+<p><img src="/img/lambda3.png" alt=""></p>
+<p>Após este passo basta confirmar e sua função está pronta para ser executada. Você pode testa-la passando parametros para analisar o retorno clicando em “Test”.</p>
+<p>Para ser invodado esta função pelo API gateway basta seguir o post <a href="http://localhost:4000/2017/01/06/Amazon-API-Gateway/" target="_blank" rel="noopener">sobre o serviço específico</a>.</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/01/13/Amazon-Lightsail/" data-toggle="tooltip" data-placement="top" title="Amazon Lightsail">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/01/11/Criar-certificado-SSL-HTTPS-com-Let-s-encrypt/" data-toggle="tooltip" data-placement="top" title="Criar certificado SSL (HTTPS) com Let's encrypt">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#aws lambda" title="aws lambda">aws lambda</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

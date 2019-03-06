@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Flutter: Conhecendo e testando o Framework da Google para criar apps nativos para Android/iOS - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2018/03/07/Flutter-Conhecendo-e-testando-o-Framework-da-Google-para-criar-apps-nativos-para-Android-iOS/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/bannerflutter.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Introdução" title="Introdução">Introdução</a>
+                        
+                          <a class="tag" href="/tags/#Flutter" title="Flutter">Flutter</a>
+                        
+                          <a class="tag" href="/tags/#Google" title="Google">Google</a>
+                        
+                          <a class="tag" href="/tags/#Multi-plataforma" title="Multi-plataforma">Multi-plataforma</a>
+                        
+                    </div>
+                    <h1>Flutter: Conhecendo e testando o Framework da Google para criar apps nativos para Android/iOS</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        07/03/2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>O desenvolvimento de aplicativos cada vez mais precisa ser escalável e dinamico, ou seja, não podemos perder muito tempo para lançar um aplicativo e muito menos atualizações de novos recursos e bugs, pois com a alta concorrencia de apps nas stores fica cada vez mais difícil fidelizar o smart publico.</p>
+</blockquote>
+<p>Antes de entrar no detalhe técnico é importante entender que existem três tipos de desenvolvimento de apps que podem ser seguido por um desenvolvedor sendo: </p>
+<ul>
+<li><strong>Desenvolvimento nativo</strong><br>Neste cenário é utilizado o SDK e IDE do sistema operacional a ser implementado como Android Studio utilizando linguagem de programação Java ou Kotlin para apps Android, e XCode utilizando linguagem de programação ObjectC ou Swift para apps iOS.</li>
+<li><strong>Desenvolvimento híbrido</strong><br>Neste cenário é utilizado uma plataforma, como Apache Cordova, onde o aplicativo a ser desenvolvido roda em um browser incorporado no aplicativo sem barra de navegação e com icones de inicialização, com isso seu aplicativo pode ser acesso a recursos nativos, por meio de plugins, e pode ser implementado em HTML, CSS e Javascript. Sendo assim o mesmo aplicativo pode ser compilado para Android, iOS e outros S.O que a plataforma base de suporte. Veja <a href="/2018/02/20/Hibrido-vs-Nativo-Uma-visao-do-time-do-Ionic/">post relacionado aqui</a>.</li>
+<li><strong>Desenvolvimento nativo multiplataforma</strong><br>Este é o ponto que vamos trabalhar neste post, pois neste cenário é utilizado um framework que da suporte em utilizar o mesmo código fonte para compilar o aplicativo final para Android e iOS, como React Native e Flutter. Sendo assim você implementa na linguagem e estrutura do framework e o mesmo é compilado nativamente o aplicativo final.</li>
+</ul>
+<h2 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h2><p><a href="https://flutter.io" target="_blank" rel="noopener">Flutter</a> é um framework criado pelo time da Google para criar aplicativo móvel de alto desempenho e alta fidelidade para iOS e Android, a partir de uma única basecode.</p>
+<p><img src="/img/flutter1.jpg" alt="Flutter"></p>
+<p>A linguagem de programação utilizada para implementar os Apps em Flutter é a <a href="https://www.dartlang.org/" target="_blank" rel="noopener">Dart</a> uma linguagem simples de utilizar e bem familiar para quem já conhece Java ou JavaScript. Se você tiver conhecimento com linguagem orientada a objetos certamente você irá pegar bem rápido o esquema do Dart, mas mesmo que não tenha conseguirá criar apps rapidamente com Flutter. </p>
+<p>Um princípio na interação dos elementos de interface com lógicas de negócio são os componentes stateless e stateful, e se você tiver conhecimento sobre o framework ReactJS vejá uma familiaridade no controle de estado das variáveis, neste ponto o Flutter se inspirou no ReactJS. Se você já implementou algo em React Native sugiro você ler <a href="https://flutter.io/flutter-for-react-native/" target="_blank" rel="noopener">esse post</a> onde é comparado a familiaridade entre os dois frameworks.</p>
+<p>Flutter também dispoe do famoso <code>hot reload</code> que facilita o desenvolvimento do app atualizando em seu device ao salvar seu código e atualizando apenas o elemento que foi alterado, isso ajuda muito para corrigir bugs em fluxos complexos.</p>
+<p>Quando começo a trabalhar com um framework a primeira coisa que me preocupo é com a UI, se é flexível e customizavel, pois em casos de limitação isso deixa o trabalho mais “chato”. Neste ponto o Flutter se destacou com relação a outros frameworks que usei, pois seus SDK da uma abertura muito alta para customizar as interfaces. Se você tiver conhecimento em CSS surigo ler <a href="https://flutter.io/web-analogs/" target="_blank" rel="noopener">este post</a> sobre uma analogia com CSS.</p>
+<p>Podemos dizer que Flutter inclui uma estrutura moderna para controlar o estado dos elementos, um mecanismo de renderização 2D, widgets prontos e ferramentas de desenvolvimento produtivas. </p>
+<h3 id="Widget"><a href="#Widget" class="headerlink" title="Widget"></a>Widget</h3><p>No Flutter tudo é Widget que representa a base da UI. Diferente de outras estrutras que separam seus elementos em View, Controller e Model, o Flutter possui um modelo unificado de objeto conhecido como widget. O Widget pode ser definido como elementos estruturais (como botões ou menu), elementos de estilo (como fonte e cores),<br>elemento de layout (como padding e margin) e assim por diante. Os widgets são contruidos em hiearquia, pois cada widget herda as propriedades de seu pai, muito semelhante elementos HTML.</p>
+<p>Os widgets geralmente são compostos de muitos pequenos widgets de propósito único que se combinam para criar as interfaces. Por exemplo, o <code>Container</code>, um widget de uso comum, é composto por vários widgets responsáveis pelo layout, cor, posicionamento e dimensionamento. A hierarquia do widget é ampla para poder combinar o número máximo de widgets.</p>
+<p><img src="/img/flutter2.jpg" alt="Flutter"></p>
+<p>É possível controlar o layout de um widget utilizando outros widgets. Por exemplo, para centralizar um widget, você coloca ele em um widget do <code>Center</code>. Existem widgets para preenchimento, alinhamento, linha, colunas e grades. Esses widgets de layout não possuem uma representação visual própria. Em vez disso, seu único propósito é controlar algum aspecto do layout de outro widget.</p>
+<h3 id="Camadas"><a href="#Camadas" class="headerlink" title="Camadas"></a>Camadas</h3><p>O Flutter é construido sob camadas e o diagrama abaixo mostra essa estrutura de camadas superiores, que são mais utilizadas que a inferiores.</p>
+<p><img src="/img/flutter3.jpg" alt="Flutter"></p>
+<p>O modelo de widget facilita muito a customização de novos elementos, tanto em nível supeior quanto nível inferior, pois olhando alguns elementos de nível supeior do Flutter podemos ver que eles são um conjunto de elementos inferiores.</p>
+<h3 id="Interacao-do-usuario"><a href="#Interacao-do-usuario" class="headerlink" title="Interação do usuário"></a>Interação do usuário</h3><p>Se um widget precisa atualizar informações ou fatores de sua exibição quando o usuário realiza algum evento podemos enteder que este widget tem um estado. </p>
+<p>Imagina que temos um widget que dentro dele tem um botão e um número exibido em um label, quando o usuário clicar no botão o número deve ser crementado, neste caso o widget tem um estato e iremos atualizar seu valor pelo <code>setState()</code>. Quando o valor é alterado de um <code>state</code> o widget é reconstruido para atualizar a interface.</p>
+<p>Esses widgets que tem <code>state</code> são classes do <code>StatefulWidget</code> (em vez de <code>StatelessWidget</code>).s</p>
+<p><img src="/img/flutter4.jpg" alt="Flutter"></p>
+<h3 id="Instalacao"><a href="#Instalacao" class="headerlink" title="Instalação"></a>Instalação</h3><p>No momento em que este post foi escrito o Flutter estava na versão beta, então acompanhe a página de <a href="https://flutter.io/setup-windows/" target="_blank" rel="noopener">instalação oficial</a> para analisar se algo mudou. Irie descrever como fazer a instalação no Windows, mas para os outros S.O os passos são semelhantes, mudando a forma de criar as variáveis de ambientes.</p>
+<p>Precisamos ter instalado na máquina o Git, pois a instalação nada mais é que um clone do repositório oficial do Flutter. Dendo o Git instalado faça o clone em uma pasta onde você pode mandar atualizado e seguro, no meu caso eu deixei em <code>d:\flutter</code>.</p>
+<blockquote>
+<p>Caso você já tenha uma versão instalada do flutter basta executar <code>flutter upgrade</code> para atualizar o mesmo para uma nova versão.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b beta https://github.com/flutter/flutter.git</span><br></pre></td></tr></table></figure>
+<p>Após o clone concluído precisamos adicionar na varivável <code>PATH</code> o caminho <code>bin</code> do flutter.</p>
+<p><img src="/img/flutter5.jpg" alt="Flutter"></p>
+<p>Agora vamos analisar as dependência do flutter para o SDK funcionar corretamente. No terminal digite:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter doctor</span><br></pre></td></tr></table></figure>
+<p>Caso você não tenha as dependências instalada na sua máquina algo assim irá ser exibido no terminal:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Doctor summary (to see all details, run flutter doctor -v):</span><br><span class="line">[√] Flutter (Channel beta, v0.1.5, on Microsoft Windows [versÃ£o 10.0.15063], locale pt-BR)</span><br><span class="line">[√] Android toolchain - develop for Android devices (Android SDK 25.0.3)</span><br><span class="line">[X] Android Studio (not installed)</span><br><span class="line">[!] VS Code (version 1.16.1)</span><br><span class="line">[√] Connected devices (1 available)</span><br></pre></td></tr></table></figure>
+<p>Se você estiver no Windows não irá conseguir gerar os aplicativos para iOS, porque essa tarefa deve ser feito em um Mac, mas você pode criar o app e testar no Android e depois apenas executar testes no iOS utilizando um MacInCloud, ou seja, utilizar um Mac em núvem onde você paga por hora em execução de sua máquina.</p>
+<p>Analisando o cenário para Android o Flutter depende que você tenha o Android SDK e o Android Studio, pois ele utiliza algumas libs da IDE. Sendo assim baixe o <a href="https://developer.android.com/studio/index.html?hl=pt-br" target="_blank" rel="noopener">Android Studio aqui</a> e siga passo a passo da instalação.</p>
+<blockquote>
+<p>Após finalizar a instalação e abrir pela primeira vez o Android Studio ele irá solicitar uma pasta onde o Android SDK irá ser instalado, recomendo você escolher uma pasta de fácil acesso pois iremos precisar inforar a mesma como variável de ambiente.</p>
+</blockquote>
+<p><img src="/img/flutter7.jpg" alt="Flutter"></p>
+<p><img src="/img/flutter8.jpg" alt="Flutter"></p>
+<p><img src="/img/flutter9.jpg" alt="Flutter"></p>
+<p>No meu caso eu utilizo o VS Code e o <code>flutter doctor</code> detectou o VS Code e analisou que não tem o plugin do Dart no mesmo, para isso instale a extensão do Dart.</p>
+<p><img src="/img/flutter6.jpg" alt="Flutter"></p>
+<p>Agora precisamos criar a variável de ambiente <code>ANDROID_HOME</code>:</p>
+<p><img src="/img/flutter10.jpg" alt="Flutter"></p>
+<p>Outro detalhe é que o Flutter precisa executar seu app em um device ou emulador, eu conselho você rodar direto no device, pois isso vai trazer uma experiência melhor no desenvolvimento.</p>
+<p>Após esses passos abra novamete o terminal e execute o <code>flutter doctor</code> e você deverá ver um resultado parecido com esse:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Doctor summary (to see all details, run flutter doctor -v):</span><br><span class="line">[√] Flutter (Channel beta, v0.1.5, on Microsoft Windows [versÃ£o 10.0.15063], locale pt-BR)</span><br><span class="line">[√] Android toolchain - develop for Android devices (Android SDK 25.0.3)</span><br><span class="line">[√] Android Studio (version 3.0)</span><br><span class="line">[√] VS Code (version 1.21.0)</span><br><span class="line">[√] Connected devices (1 available)</span><br><span class="line"></span><br><span class="line">• No issues found!</span><br></pre></td></tr></table></figure>
+<h3 id="Estrutura-de-um-projeto-Flutter"><a href="#Estrutura-de-um-projeto-Flutter" class="headerlink" title="Estrutura de um projeto Flutter"></a>Estrutura de um projeto Flutter</h3><p>Vamos fazer uma anatomia de um projeto Flutter e entender sua estrutura, tenha em mente que os arquivos gerados podem ser alterados cada vez que o build é executado, mas neste momento queremos anaisar, de forma superficial, o arquivos gerados. Sendo assim digite o comando para criar um novo app.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter create apptask</span><br></pre></td></tr></table></figure>
+<p>Você pode acompanhar no terminal alguns arquivos sendo criado e por final o flutter executando: <code>Running &quot;flutter packages get&quot; in apptask...</code> isso é necessário para que os pacotes, que podemos chamar de recursos, sejam baixados e disponibilizados no app.</p>
+<p>Olhado para a raiz da pasta gerada vamos ver o primeiro arquivo importante do Flutter, o <code>pubspec.yaml</code>, neste arquivo iremos colocar as dependências do nosso projeto e ao executaroms <code>flutter packages get</code> o flutter irá analisar os pacotes que estão informados no arquivo e que não foi baixado e assim executar o download (instalação).</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/08/10/Conhecendo-o-banco-nao-relacional-MongoDB/" data-toggle="tooltip" data-placement="top" title="Conhecendo o banco não relacional MongoDB">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/03/01/Criando-executaveis-binarios-com-NodeJs-pkg/" data-toggle="tooltip" data-placement="top" title="Criando executáveis binários com NodeJs + pkg">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Introdução" title="Introdução">Introdução</a>
+                        
+                          <a class="tag" href="/tags/#Flutter" title="Flutter">Flutter</a>
+                        
+                          <a class="tag" href="/tags/#Google" title="Google">Google</a>
+                        
+                          <a class="tag" href="/tags/#Multi-plataforma" title="Multi-plataforma">Multi-plataforma</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

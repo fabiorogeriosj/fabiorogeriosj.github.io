@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Publicando um site sem pagar nada - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2015/06/30/Publicando-um-site-sem-pagar-nada/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/datacenter.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#website" title="website">website</a>
+                        
+                          <a class="tag" href="/tags/#github pages" title="github pages">github pages</a>
+                        
+                          <a class="tag" href="/tags/#hospedagem free" title="hospedagem free">hospedagem free</a>
+                        
+                    </div>
+                    <h1>Publicando um site sem pagar nada</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        30/06/2015
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Quem já não se deparou com a seguinte situação: Preciso publicar um site, bem simples e estático, porem acho carro pagar R$ 19,90 por mês!<br>Neste post vou explicar de forma prática e simples como hospedar um site sem pagar nada :)</p>
+<p>Primeiro precisamos revisar o que é necessário para publicar um site:</p>
+<ul>
+<li>Criar um domínio;</li>
+<li>Criar o site estático HTML/CSS/JS;</li>
+<li>Fazer upload à um servidor de hospedagem ou algum serviço do genero;</li>
+<li>E configurar o domínio do site para escutar no servidor hospedado.</li>
+</ul>
+<h2 id="Criar-um-dominio"><a href="#Criar-um-dominio" class="headerlink" title="Criar um domínio"></a>Criar um domínio</h2><p>A escolha do domínio do site, ou a identidade principal do site, deve ser escolhida com base no nome do serviço, empresa, produto ao algo relacionado ao publico alvo do site. Os domínios mais utilizados no Brasil é .com e .com.br!</p>
+<h3 id="Registrando-um-dominio-com"><a href="#Registrando-um-dominio-com" class="headerlink" title="Registrando um domínio .com"></a>Registrando um domínio .com</h3><p>É possível registrar um domínio em vários sites pela web! O que eu uso, e recomendo, é o <a href="https://br.godaddy.com/" target="_blank" rel="noopener">Godaddy.com</a>.</p>
+<p>O processo de registro é bem simples, escolha o nome, escolha para quantos anos você quer o registro, faça o pagamento e aguarde ser aprovado seu domínio! Um domínio .com custa em média R$ 25,00 por ano.</p>
+<p>Depois você ira voltar a este site para configurar o DNS do seu domínio, mas falamos sobre isso depois.</p>
+<h3 id="Registrando-um-dominio-com-br"><a href="#Registrando-um-dominio-com-br" class="headerlink" title="Registrando um domínio .com.br"></a>Registrando um domínio .com.br</h3><p>Para domínio .com.br recomendo registrar direto com os responsáveis do Ponto BR no site <a href="http://registro.br/" target="_blank" rel="noopener">Registro.br</a>. O processo também é simples, basta escolher um nome que esteja livre, escolhar o período de registro, efeturar o pagamento e aguardar a liberação! Um domínio .com.br custa em média R$ 30,00 por ano.</p>
+<p>Depois você ira voltar a este site para configurar o DNS do seu domínio, mas falamos sobre isso depois.</p>
+<h2 id="Crie-seu-site-estatico"><a href="#Crie-seu-site-estatico" class="headerlink" title="Crie seu site estático"></a>Crie seu site estático</h2><p>Criar um site hoje em dia já não é algo complicado e que necessite de muito conhecimento em desenvolvimento Web. Você pode procuar um template gratuíto, ou criar um site com base em um Layout Free! Mas lembre-se, se for criar algo mal feito, nem crie!!! A internet já esta cheio de sites terríveis ;)</p>
+<h2 id="Hospedar-o-site"><a href="#Hospedar-o-site" class="headerlink" title="Hospedar o site"></a>Hospedar o site</h2><p>Aqui vem nosso ponto crucial para este post, onde hospedar seu site?</p>
+<p>Existe várias serviços que oferecem hospedagem gratuíta para site, e eu usei muitos destes serviços para testar e avaliar :), o que mais gostei foi o <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> e vou excplicar o porque desta escolha entre muitos.</p>
+<h2 id="Porque-hospedar-seu-site-no-GitHub-Pages"><a href="#Porque-hospedar-seu-site-no-GitHub-Pages" class="headerlink" title="Porque hospedar seu site no GitHub Pages?"></a>Porque hospedar seu site no GitHub Pages?</h2><p>Acho que o primeiro ponto é o versionamento dos arquivos, como todos os serviços do GitHub são baseados no Git isso facilita e muito nossa tarefa de versionar as versões do site, atualizar, etc! Se você ainda não conhece sobre Git, sugiro você ver <a href="https://youtu.be/UMhskLXJuq4" target="_blank" rel="noopener">este vídeo</a> antes de continuar.</p>
+<p>Outro ponto é o fato do GitHub ser gratuíto para projetos públicos, mas como assim? O código fonte do meu site vai ficar aberto para qualquer um ver?</p>
+<p>A resposta é sim! Se seu site é estático então não tem problema de ficar aberto, pois se for estático significa que tudo roda do lado do cliente, então o usuário pode ir em “salvar página” e pronto ele terá seu site completo. Sendo assim isso não é um problema para este tipo de projeto.</p>
+<p>Então vamos la! Vou mostrar os passos, considerando que você já tenha o site implementado em HTML/CSS/JS, para publicar o site via GitHub Pages.</p>
+<h2 id="Criando-um-repositorio"><a href="#Criando-um-repositorio" class="headerlink" title="Criando um repositório"></a>Criando um repositório</h2><p>Primeiro você precisa criar um repositório com o seu nome de usuário mais .github.io. Isso para site pessoal:</p>
+<p><img src="/img/github1.jpg" alt=""></p>
+<p>Caso você queira criar um site para outro nome diferente do seu nome de usuário você primeiro deve criar um organização:</p>
+<p><img src="/img/github6.jpg" alt=""></p>
+<p>Depois criar o repositório:</p>
+<p><img src="/img/github7.jpg" alt=""></p>
+<p>Outra ponto interessante do GitHug Pages é que ele disponibiliza alguns layout prontos para você criar um site! Mas deixamos isso para um outro momento.</p>
+<h2 id="Clone-seu-repositorio-em-sua-maquina"><a href="#Clone-seu-repositorio-em-sua-maquina" class="headerlink" title="Clone seu repositório em sua maquina"></a>Clone seu repositório em sua maquina</h2><p>Agora vamos clonar o repositório para poder inserir os arquivos do site. É possível interagir com o GitHub atravez de software para Windows e Mac, massss a melhor forma, na minha opinião é via terminal.</p>
+<p>Para usar o git em sua maquina você deve ter instalado o git, caso não tenha ainda entre no site do <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" target="_blank" rel="noopener">Git</a> e veja as instruções com base no seu sistema operacional.</p>
+<p>Tendo o software Git instalado vamos clonar o repositório. Após ter criado você verá a URL do seu repositório:</p>
+<p><img src="/img/github2.jpg" alt=""></p>
+<p>Entre no terminal e digite (trocando a URL para a do seu repositório:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/fabiorogeriosj/fabiorogeriosj.github.io.git</span><br></pre></td></tr></table></figure>
+<p>Coloque todos seus arquivos nesta pasta e crie um arquivo chamado CNAME com o domínio do seu site:</p>
+<p><img src="/img/github3.jpg" alt=""></p>
+<h2 id="Atualizando-repositorio"><a href="#Atualizando-repositorio" class="headerlink" title="Atualizando repositório"></a>Atualizando repositório</h2><p>Agora vamos comitar os arquivos alterados, em outras palavras, vamos atualizar o respositório nas núvens, digite no terminal dentro da pasta do seu projeto:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add --all</span><br><span class="line">git commit -m <span class="string">"Atualizando site"</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>Será solicitado seu e-mail e senha de acesso ao GitHub.</p>
+<h2 id="Conferir-escuta-de-dominio"><a href="#Conferir-escuta-de-dominio" class="headerlink" title="Conferir escuta de domínio"></a>Conferir escuta de domínio</h2><p>Após comitar os arquivos aguarde uns 5 minutos e vá em Setting do seu repositório e veja se o domínio já esta sendo escutado pelo GitHub:</p>
+<p><img src="/img/github4.jpg" alt=""></p>
+<p><img src="/img/github5.jpg" alt=""></p>
+<h2 id="Configurando-dominio"><a href="#Configurando-dominio" class="headerlink" title="Configurando domínio"></a>Configurando domínio</h2><p>Se você entrar na URL seuusuariogit.github.io você verá que foi redirecionado para o seu domínio configurado em CNAME! Agora temos que configurar o domínio registrado para direcionar para os servidores do GitHub!</p>
+<h3 id="Configurando-com"><a href="#Configurando-com" class="headerlink" title="Configurando .com"></a>Configurando .com</h3><p>Domínio .com é o mais simples e não precisa pagar nada para ter um DNS, entre no painel do Godaddy.com e vai em gerenciar meus domínios:</p>
+<p>Em “Arquivo de Zona DNS” crie dois registro (se já exisitr altere) um como Host:</p>
+<p><img src="/img/github8.jpg" alt=""></p>
+<p>Com os seguintes dados:</p>
+<p><img src="/img/github9.jpg" alt=""></p>
+<p>E um outro registro para CNAME com os seguintes dados:</p>
+<p><img src="/img/github10.jpg" alt=""></p>
+<p>Em “Apontar para” você deve colocar o nome do seu repositório.</p>
+<p>Aguarde alguns minutos para o DNS propagar e teste seu site, você veja que ele estará respondendo no domínio criado :)</p>
+<p><img src="/img/github11.jpg" alt=""></p>
+<h3 id="Configurando-com-br"><a href="#Configurando-com-br" class="headerlink" title="Configurando .com.br"></a>Configurando .com.br</h3><p>Até um tempo atraz o Registro.br não disponibilizava um servidor DNS, mas nossos problemas terminaram, agora é possível usar o próprio servidor deles :)</p>
+<p>Entre no painel do Registro.br e clique no domínio que você criou:</p>
+<p><img src="/img/github12.jpg" alt=""></p>
+<p>Clique em modo avançado:</p>
+<p><img src="/img/github13.jpg" alt=""></p>
+<p>Adicione duas entradas, uma com o tipo “A” com o campo acima do domínio vazio para o endereço: 192.30.252.153. E outro com o tipo CNAME com o campo “www” para o nome do seu repositório:</p>
+<p><img src="/img/github14.jpg" alt=""></p>
+<p>Aguarde até o registro.br propagar seu DNS e pronto, seu site estará no ar :)</p>
+<p><img src="/img/github15.jpg" alt=""></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2015/12/21/Extraindo-cores-de-imagens-com-Ionic-Color-Thief/" data-toggle="tooltip" data-placement="top" title="Extraindo cores de imagens com Ionic + Color Thief">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#website" title="website">website</a>
+                        
+                          <a class="tag" href="/tags/#github pages" title="github pages">github pages</a>
+                        
+                          <a class="tag" href="/tags/#hospedagem free" title="hospedagem free">hospedagem free</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Conhecendo, Instalando e Configurando Docker - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2018/02/15/Conhecendo-Instalando-e-Configurando-Docker/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/bannercontainers.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Registro de trabalho" title="Registro de trabalho">Registro de trabalho</a>
+                        
+                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                        
+                          <a class="tag" href="/tags/#Containers" title="Containers">Containers</a>
+                        
+                          <a class="tag" href="/tags/#DevOps" title="DevOps">DevOps</a>
+                        
+                    </div>
+                    <h1>Conhecendo, Instalando e Configurando Docker</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        15/02/2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Este é um registro de trabalho onde coloco passo a passo de como realizei uma determinada tarefa a fim de documentar, registrar e compartilhar o conhecimento adquirido!</p>
+<blockquote>
+<p>O objetivo dessa tarefa foi entender, de forma aprofundada, os recursos que trabalhar com containers pode proporcionar para uso mais eficiente de máquinas em uma aplicação de missão crítica.</p>
+</blockquote>
+<p>É comum quem está iniciando os estudos com Docker se confundir com máquinas virtuais, porém o Docker é bem diferente no quesito de virtualização.</p>
+<p>Docker pode ser considerado como uma plataforma aberta que foi criado com o principal objetivo de facilitar o desenvolvimento, implantação e execução de aplicações em ambientes isolados, (existe uma familiaridade com máquinas virtuais aqui) isso traz uma garantia mais segura que os ambientes que serão executando, tanto em desenvolvimento quanto em produção, serão os mesmos.</p>
+<p>Imagina que você está desenvolvendo localhost sua aplicação e precisa colocar isso em produção, com o Docker você tem a segurança de colocar sua máquina para rodar em produção (analogia), pois o mesmo ambiente que você usa para testar sua aplicação será a mesma que estará em produção.</p>
+<p>Outro ponto que o Docker melhorou foi a conversa entre os desenvolvedores e administradores de servidor (DevOps) pois o desenvolvedor consegue, sem muito esforço, validar e implementar sua própria infraestrutura de servidor.</p>
+<p>O diferencial do Docker é o modelo de empacotar sua aplicação conhecida como “container” e virar uma imagem Docker, vamos entender melhor olhando para imagem abaixo:</p>
+<p><img src="/img/docker1.png" alt="Docker"></p>
+<p>No modelo tradicional de virtualização (VMs) podemos perceber que cada nova aplicação rodando dentro de uma máquina física é replicada o ambiente como um todo, ou seja, dentro de cada máquina VM existe um sistema operacional e todo o sistema de arquivos base, isso consome muito recurso e poder de processamento.</p>
+<p>Já no modelo de container perceba que os recursos são compartilhados entre os containers pelo seu hospedeiro, ou seja, os container usa o próprio recurso operacional da máquina física e com isso aumenta a eficiência no uso dos mesmos. Os containers são isolados a nível disco, memória, processamento e rede.</p>
+<p>Outro ponto importante é que o tempo para disponibilizar esses containers são calculados em seguindo, uma vez que ele não precisa levantar todo o sistema de arquivo mas sim apenas a aplicação desejada.</p>
+<p>Essas imagens podem ser customizadas conforme desejar ou pode ser utilizado uma já instalada com a aplicação necessário, por exemplo se você precisar de uma imagem que tenha o NodeJS instalado, você pode baixar a mesma de um ambiente público e utilizar em seu ambiente, e esta mesma imagem pode ir para produção garantindo assim que os ambientes estarão sempre idênticos.</p>
+<p>Em resumo o Docker isola uma virtualização em nível do sistema operacional, ou seja, ele utiliza apenas o kernel de seu hospedeira e com isso você pode ter um ou mais containers que estão trabalhando com recursos compartilhados porém isolados. É possível liberar para que os containers compartilhem recursos de cada um entre outros.</p>
+<p><img src="/img/docker2.jpg" alt="Docker"></p>
+<p>O armazenamento de arquivos de cada container também é isolado por padrão, ou seja, se você salva arquivos estáticos na sua aplicação eles serão perdidos quando um container morrer, diferente de uma máquina virtual.</p>
+<p>Quando você precisa persistir arquivos existem três opções:</p>
+<ul>
+<li>Mapeamento de pasta específica do host:<br>– Neste modelo é feito um mapeamento de uma determinada pasta que existe no host para dentro do container.</li>
+<li>Mapeamento via contêiner de dados:<br>– É possível criar um container com a principal função de ter um volume que pode ser utilizado por outros container, um problema nessa abordagem é que esse container não pode ser destruído pois os arquivos estáticos seriam perdidos.</li>
+<li>Mapeamento de volumes:<br>– A partir da versão 1.9 do Docker é possível criar um volume isolado de um container, facilitando assim a portabilidade do volume com demas containers.</li>
+</ul>
+<p>Para saber mais sobre o sistema de armazenamento do Docker recomendo ler <a href="http://techfree.com.br/2015/12/entendendo-armazenamentos-de-dados-no-docker/" target="_blank" rel="noopener">esse post</a>.</p>
+<h2 id="Instalacao"><a href="#Instalacao" class="headerlink" title="Instalação"></a>Instalação</h2><p>No momento que este post foi criado a Docker estava dividido em duas versões de produto, uma sendo <code>Community</code> e outra sendo <code>Enterprise</code>. No meu caso utilizei a CE, sendo assim baixe a versão para seu sistema operacional direto do <a href="https://www.docker.com/community-edition" target="_blank" rel="noopener">site do docker</a> e next, next, next.</p>
+<p>Para o docker funcionar você precisa habilitar a virtualização em seu sistema, abaixo podemos ver no windows:</p>
+<p><img src="/img/docker3.jpg" alt="Docker"></p>
+<p>Após a conclusão precisamos iniciar o serviço de daemon do docker, para isso, no meu caso que estou testando em ambiente Windows, abra como administrador o “Docker for Windows”.</p>
+<blockquote>
+<p>A primeira vez que essa aplicação é executada o Docker irá analisar toda sua estrutura de máquina e verificar se pode executar as aplicações, no meu caso tive que adicionar meu usuário no grupo <code>docker-users</code> para resolver esse problema apontado <a href="https://github.com/docker/for-win/issues/868#issuecomment-312639000" target="_blank" rel="noopener">no GitHub</a>.</p>
+</blockquote>
+<p>Após o docker estar em execução, vamos abrir nosso terminal e rodar um container que retorna apenas uma mensagem no terminal, isso será nosso teste final para ver se a instalação foi bem sucedida de fato. No terminal digite:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run hello-world</span><br></pre></td></tr></table></figure>
+<p>Este comando irá rodar uma imagem chamada <code>hello-world</code> mas antes de ser exibida a mensagem no terminal ele faz alguns passos para essa tarefa ser concluída, tais como:</p>
+<ul>
+<li>Primeiro o docker verifica se essa imagem já foi baixada localmente, se não foi ele baixa do <a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a>.</li>
+<li>O docker cria um novo container com a imagem <code>hello-world</code> e executa a mesma.</li>
+<li>O docker exibe a mensagem de retorno <code>Hello from Docker!</code> vinda do container e finaliza o processo do container.</li>
+</ul>
+<p>Pronto, o Docker está instalado com sucesso!</p>
+<h2 id="Comandos-essenciais"><a href="#Comandos-essenciais" class="headerlink" title="Comandos essenciais"></a>Comandos essenciais</h2><p>O comando de rodar um container já vimos anteriormente mas basicamente ele funciona nessa ordem:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run &lt;parâmetros&gt; &lt;imagem&gt; &lt;CMD&gt; &lt;argumentos&gt;</span><br></pre></td></tr></table></figure>
+<p>Vamos executar um container com a imagem do ubuntu e aberto o bash em nosso terminal com interação, isso mesmo vamos abrir um terminal bash do linux no CMD do windows :)</p>
+<p>Para isso execute o comando:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it ubuntu bash</span><br></pre></td></tr></table></figure>
+<p>Passamos como parâmetro o <code>-it</code>, que habilita o container pra ser interativo e aloca um pseudo TTY, algo como um terminal interativo. O  comando <code>bash</code> passado depois da imagem é o primeiro programa que será executado após o container estar rodando.</p>
+<p>Para sair e finalizar o container digite <code>exit</code>.</p>
+<p>Os parâmetros mais utilizados na execução de um container porém ser:</p>
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-d</code></td>
+<td>Execução do container em background</td>
+</tr>
+<tr>
+<td><code>-i</code></td>
+<td>Modo interativo. Mantém o STDIN aberto mesmo sem console anexado</td>
+</tr>
+<tr>
+<td><code>-t</code></td>
+<td>Aloca uma pseudo TTY</td>
+</tr>
+<tr>
+<td><code>--rm</code></td>
+<td>Automaticamente remove o container após finalização (Não funciona com -d)</td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td>Nomear o container</td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>Mapeamento de volume</td>
+</tr>
+<tr>
+<td><code>-p</code></td>
+<td>Mapeamento de porta</td>
+</tr>
+<tr>
+<td><code>-m</code></td>
+<td>Limitar o uso de memória RAM</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>Balancear o uso de CPU</td>
+</tr>
+</tbody>
+</table>
+<p>Outro comando útil é o <code>image list</code> que exibe as imagens baixadas em nosso sistema (host):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image list</span><br></pre></td></tr></table></figure>
+<p>É possível baixar uma nova versão para casa imagem executando o comando <code>docker image pull &lt;imagem&gt;</code>.</p>
+<p>Para testarmos outros parâmetros vamos criar um outro container, utilizando a imagem <code>node</code>, com o objetivo de criar uma API simples com NodeJS. Nosso comando ficará:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it --rm -p 80:8080 -m 512M node bash</span><br></pre></td></tr></table></figure>
+<p>O comando acima cria um novo container utilizando no máximo 512M de memória do host e será removido após ser finalizado, e também irá expor a porta 80 para o host mapeando a porta 8080 do container.</p>
+<p>Agora vamos instalar um módulo binário para o NodeJS que cria uma API a partir de um arquivo JSON:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install -g json-server</span><br><span class="line">cd /opt</span><br><span class="line">echo &apos;&#123; &quot;users&quot;:[] &#125;&apos; &gt; api.json</span><br><span class="line">json-server --watch api.json --port 8080</span><br></pre></td></tr></table></figure>
+<p>Você pode testar essa sua API fazendo GET/POST/DELETE no IP da sua máquina física (host) na porta 80:</p>
+<p><img src="/img/docker4.jpg" alt="Docker"></p>
+<p>Com o container ainda em execução, abra outro terminal e vamos verificar todos os containers executados no host:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container list -a</span><br></pre></td></tr></table></figure>
+<p>O parâmetro <code>-a</code> informa que geremos ver todos os containers já executados no host. Outros possíveis parâmetros são:</p>
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-a</code></td>
+<td>Lista todos os containers, inclusive os desligados</td>
+</tr>
+<tr>
+<td><code>-l</code></td>
+<td>Lista os últimos containers, inclusive os desligados</td>
+</tr>
+<tr>
+<td><code>-n</code></td>
+<td>Lista os últimos N containers, inclusive os desligados</td>
+</tr>
+<tr>
+<td><code>-q</code></td>
+<td>Lista apenas os ids dos containers, ótimo para utilização em scripts</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>É possível utilizar o comando abreviado como: <code>docker ps</code>.</p>
+</blockquote>
+<p>Podemos também parar um container em execução com o comando <code>stop</code> passando como parâmetro o id do container ou o nome:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container stop 484939aw342c</span><br></pre></td></tr></table></figure>
+<p>Se observar no outro terminal que estava em execução o mesmo terá aplicado o comando <code>exit</code>, e neste caso nossa API com os dados também foram removidos, então para manter os dados gerados dentro do container e mantê lo salvo vamos adicionar um volume apontando uma pasta do host:</p>
+<p>Para finalizar nossos comandos essenciais vamos fazer com que nosso container execute de forma que os dados sejam salvos em um volume e a execução do servidor seja automática. Na máquina física vamos criar uma pasta no c: com o nome api e vamos mapear esta pasta para dentro do container no caminho /api:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it --rm -p 80:8080 -m 512M -v c:\api\:/api node bash</span><br></pre></td></tr></table></figure>
+<p>Agora dentro do container podemos entrar no diretório <code>/api</code> e criar nosso arquivo de banco da API e um executável <code>.sh</code> para iniciar o processo da API quando o container for levantado:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /api</span><br><span class="line">echo &apos;&#123; &quot;users&quot;:[] &#125;&apos; &gt; db.json</span><br><span class="line">echo &apos;#!/bin/bash&apos; &gt; server.sh</span><br><span class="line">echo &apos;npm install -g json-server&apos; &gt;&gt; server.sh</span><br><span class="line">echo &apos;json-server --watch db.json --port 8080&apos; &gt;&gt; server.sh</span><br></pre></td></tr></table></figure>
+<p>Se você observar pelo windows explorer, irá ver que em sua pasta <code>c:\api</code> terá os arquivos que criamos no container.</p>
+<p>Agora vamos sair/matar o container e executar passando como executável o arquivo <code>.sh</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it --rm -p 80:8080 -m 512M -v c:\api\:/api node /api/server.sh</span><br></pre></td></tr></table></figure>
+<p>Perceba que ao rodar o novo container o script será executado e sua API estará ativada e pronta para uso :)</p>
+<p>Essa não é uma boa prática para ter scripts dentro do container, pois o tempo de <code>uptime</code> é maior do que ter uma imagem do container já instalado nas dependências <code>json-server</code>. Vamo ver isso na próxima sessão.</p>
+<h2 id="Criando-imagem-Docker"><a href="#Criando-imagem-Docker" class="headerlink" title="Criando imagem Docker"></a>Criando imagem Docker</h2><p>Existe duas formas de criar uma imagem Docker, ou por <code>commit</code> ou via <code>Dockerfile</code>. Nos testes que fiz <code>commit</code> não se mostrou eficiente pois ficou com um baixa rastreabilidade.</p>
+<p>O processo de criar imagem no Docker é simples, você escolhe uma imagem base para seguir, faz suas alterações e gera uma nova imagem.</p>
+<p>Crie um arquivo chamado <code>Dockerfile</code> com o seguinte conteúdo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM node:latest</span><br><span class="line">RUN npm install -g json-server</span><br><span class="line">CMD bash -c &apos;json-server --watch /api/db.json --port 8080&apos;</span><br></pre></td></tr></table></figure>
+<p>Neste arquivo instruímos essa imagem seguir da imagem <code>node</code>, na construção rodamos o <code>npm install</code> para instalar o pacote na mesma e depois descrevemos o comando que será executado como default para a imagem. Para gerar uma nova imagem digite o comando abaixo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image build -t node:api .</span><br></pre></td></tr></table></figure>
+<p>Neste comando estamos informando o nome da imagem <code>-t</code> que será <code>node:api</code>, e qual o diretório que ele irá ler para pegar o Dockfile. Também é possível copiar arquivos deste diretório para dentro do container com o comando <code>COPY</code>, mas deixaremos isso para outro momento.</p>
+<p>Se executar agora o comando <code>docker image list</code> irá ver que existe uma nova imagem, sendo assim vamos criar um novo container a partir dessa nova imagem customizada:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it  --rm -p 80:8080 -m 512M -v c:\api\:/api node:api</span><br></pre></td></tr></table></figure>
+<p>Perceba que utilizamos a imagem nova e não passamos um comando a ser executado assim que tiver ativa, pois queremos que seja executado o comando default informado na criação desta imagem. Perceba também que o tempo de subir o novo container é mais rápido :)</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/02/20/Hibrido-vs-Nativo-Uma-visao-do-time-do-Ionic/" data-toggle="tooltip" data-placement="top" title="Híbrido vs Nativo: Uma visão do time do Ionic">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/02/14/Conhecendo-Instalando-e-Configurando-o-servico-de-HTTP-e-Proxy-Nginx/" data-toggle="tooltip" data-placement="top" title="Conhecendo, Instalando e Configurando o serviço de HTTP e Proxy Nginx">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Registro de trabalho" title="Registro de trabalho">Registro de trabalho</a>
+                        
+                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                        
+                          <a class="tag" href="/tags/#Containers" title="Containers">Containers</a>
+                        
+                          <a class="tag" href="/tags/#DevOps" title="DevOps">DevOps</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

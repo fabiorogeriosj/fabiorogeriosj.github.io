@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Instalando e configurando Android SDK para projetos Apache Cordova - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2018/02/14/Instalando-e-configurando-Android-SDK-para-projetos-Apache-Cordova/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/bannerandroid.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Android SDK" title="Android SDK">Android SDK</a>
+                        
+                          <a class="tag" href="/tags/#Java JDK" title="Java JDK">Java JDK</a>
+                        
+                          <a class="tag" href="/tags/#cordova build" title="cordova build">cordova build</a>
+                        
+                          <a class="tag" href="/tags/#Gradle" title="Gradle">Gradle</a>
+                        
+                    </div>
+                    <h1>Instalando e configurando Android SDK para projetos Apache Cordova</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        14/02/2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="Para-usuarios-Linux-veja-este-post"><a href="#Para-usuarios-Linux-veja-este-post" class="headerlink" title="Para usuários Linux veja este post"></a>Para usuários Linux veja <a href="/2019/03/06/Instalando-e-configurando-Android-SDK-para-projetos-Apache-Cordova-no-Linux/">este post</a></h3><blockquote>
+<p>Se você utiliza Cordova/MobileUI/Ionic/Phonegap e outros frameworks que utilizam o Apache Cordova para buildar os apps finais (.apk) certamente precisa do ambiente do Android SDK configurado, então este post é para você.</p>
+</blockquote>
+<p>Como a Android muda com frequência seu SDK este post precisa de atualizações. Última atualização em: <strong>14/02/2018</strong></p>
+<blockquote>
+<p>Se você utiliza Docker veja este post para rodar <a href="/2018/02/26/Container-Docker-com-Android-SDK-para-projetos-Apache-Cordova/">Android SDK via Docker</a>.</p>
+</blockquote>
+<p>Para buildar um app criado com base no <a href="https://cordova.apache.org/" target="_blank" rel="noopener">Apache Cordova</a> precisamos o Android SDK instalado e configurado, e essa tarefa não é complicada mas requer alguns passos que precisam ser seguidos de forma confiável.</p>
+<p>Uma forma fácil de realizar essa tarefa porém pode gerar outros problemas é instalar o Android Studio, pois com ele vem o Android SDK, mas essa tarefa querer mais poder de processamento de sua máquina, então vamos utilizar apenas o Tools do Android SDK.</p>
+<p>Uma dica que dou é, caso você já tenha uma das ferramentas instalada, remova e faça a instalação novamente para utilizar a última versão dos mesmos.</p>
+<h2 id="JAVA-JDK"><a href="#JAVA-JDK" class="headerlink" title="JAVA JDK"></a>JAVA JDK</h2><p>O Android SDK precisa o Java JDK para funcionar, uma vez que o mesmo foi desenvolvido em Java. Para isso acesse o site do Java JDK e faça o download e a instalação que é Proximo &gt; Proximo &gt; e Concluir :)</p>
+<p><img src="/img/sdkimg1.jpg" alt="site Java JDK"></p>
+<p><img src="/img/sdkimg2.jpg" alt="site Java JDK"></p>
+<p><img src="/img/sdkimg3.jpg" alt="site Java JDK"></p>
+<p><img src="/img/sdkimg4.jpg" alt="site Java JDK"></p>
+<p>Uma vez concluído precisamos criar uma variável no ambiente em execução para o Android SDK saber onde foi instalado o Java JDK. Sendo assim clique com o botão direito do mouse sobre “Meu computador” e siga as imagens:</p>
+<p><img src="/img/sdkimg5.jpg" alt="Variáveis de Ambiente"></p>
+<p><img src="/img/sdkimg6.jpg" alt="Variáveis de Ambiente"></p>
+<p><img src="/img/sdkimg7.jpg" alt="Variáveis de Ambiente"></p>
+<p><img src="/img/sdkimg8.jpg" alt="Variáveis de Ambiente"></p>
+<p>O caminho do Java JDK pode mudar dependendo da versão que você instalou, então confira o caminho correto para não ter erro.</p>
+<p>Agora vamos colocar o caminho do bin do Java JDK no PATH para poder ser executado as aplicações do Java em diferentes locais via terminal, por exemplo você irá precisar desse passo quando for fazer a assinatura do APK para enviar para play store.</p>
+<p>Clique em editar no path e add o caminho completo até a pasta bin do JAVA JDK:</p>
+<p><img src="/img/sdkimg9.jpg" alt="Variáveis de Ambiente"></p>
+<p><img src="/img/sdkimg10.jpg" alt="Variáveis de Ambiente"></p>
+<p>Iremos criar outras variáveis de ambiente nos próximos passos. Mas antes vamos instalar as demais ferramentas.</p>
+<h2 id="Gradle-Wapper"><a href="#Gradle-Wapper" class="headerlink" title="Gradle Wapper"></a>Gradle Wapper</h2><p>O Android SDK também utiliza o Gradle para realizar o build de seus apps, então precisamos dessa tools instalada e configurada. A instalação é bem simples, basta fazer o download da versão mais atual e adicionar a mesma nas variáveis de ambiente:</p>
+<p><img src="/img/sdkimg11.jpg" alt="Variáveis de Ambiente"></p>
+<p>Descompacte o arquivo baixado e renomeie a pasta gradle-x.x.x para apenas gradle, recomendo para ficar mas fácil de encontrar os caminhos você deixar essa pasta no c:/gradle</p>
+<p><img src="/img/sdkimg12.jpg" alt="Variáveis de Ambiente"></p>
+<p>Dentro desta pasta terá outras como bin, lib, etc.</p>
+<p>Agora vamos adicionar nas variáveis de ambiente no PATH o caminho da pasta bin do gradle:</p>
+<p><img src="/img/sdkimg13.jpg" alt="Variáveis de Ambiente"></p>
+<p>Até aqui tudo show! Agora vamos para o Android SDK.</p>
+<h2 id="Android-SDK"><a href="#Android-SDK" class="headerlink" title="Android SDK"></a>Android SDK</h2><p>Como descrevi anteriormente o Android SDK vem juntamente com o Android Studio (IDE responsável por criar os apps nativos), mas não queremos trazer todas as dependências que o mesmo entrega quando instalado, para isso iremos instalar apenas o SDK Tools e instalar as dependencias apenas que o Apache Cordova precisa.</p>
+<p>Na página de download do Android Studio, role a página até o final e baixa apenas o sdk-tools (aceite os termos caso abra uma modal):</p>
+<p><img src="/img/sdkimg14.jpg" alt="Variáveis de Ambiente"></p>
+<p>Descompacte essa pasta em um lugar que fica fácil acessar via linha de comando, sugiro você deixar no caminho c:\android-sdk\tools</p>
+<p><img src="/img/sdkimg15.jpg" alt="Variáveis de Ambiente"></p>
+<p>Agora vamos criar as variáveis de ambiente para o Android SDK:</p>
+<p><img src="/img/sdkimg16.jpg" alt="Variáveis de Ambiente"></p>
+<p><img src="/img/sdkimg17.jpg" alt="Variáveis de Ambiente"></p>
+<p>Agora precisamos instalar as dependências do Android SDK para buildar os apps via Apache Cordova.<br>Abra o terminal e em qualquer caminho digite <code>sdkmanager</code> para testarmos se as variáveis que criamos de ambientes estão corretas e o <code>sdkmanager</code> está acessível de forma global.</p>
+<p><img src="/img/sdkimg18.jpg" alt="Variáveis de Ambiente"></p>
+<p>Se algo parecido com a tela acima for apresentado significa que estamos no caminho certo.</p>
+<p>Agora vamos instalar as dependências, isso pode demorar um pouco. No terminal digite o comando abaixo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sdkmanager &quot;build-tools;27.0.3&quot; &quot;platform-tools&quot; &quot;platforms;android-27&quot; &quot;extras;google;m2repository&quot; &quot;extras;android;m2repository&quot;</span><br></pre></td></tr></table></figure>
+<p>Ao executar este comando uma licença será exibida e você precisa aceitá la para continuar:</p>
+<p><img src="/img/sdkimg19.jpg" alt="Variáveis de Ambiente"></p>
+<p>Agora é preciso ter paciência e aguardar, pois este processo demora um pouco dependendo de sua conexão com a internet.</p>
+<p>No final irá aparecer o texto <code>done</code> no terminal!</p>
+<p>Agora vamos testar se tudo está ok!</p>
+<h2 id="Concluindo"><a href="#Concluindo" class="headerlink" title="Concluindo"></a>Concluindo</h2><p>Para testarmos vamos criar um projeto cordova e testar o build. No terminal digite os comandos abaixo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cordova create appTeste</span><br><span class="line">cd appTeste</span><br><span class="line">cordova platform add android</span><br><span class="line">cordova build android</span><br></pre></td></tr></table></figure>
+<p>Na primeira vez que executar o build do cordova o mesmo irá baixar algumas dependências, isso é normal e é apenas na primeira vez.</p>
+<p>Se tudo deu certo e nada deu errado ;) você irá ver seu projeto buildado com sucesso:</p>
+<p><img src="/img/sdkimg20.jpg" alt="Build OK"></p>
+<h3 id="Possiveis-erros"><a href="#Possiveis-erros" class="headerlink" title="Possíveis erros"></a>Possíveis erros</h3><p>Se você já tiver instalado anteriormente uma versão do Android SDK e não removeu completamente alguns erros podem acontecer como o: <code>Could not find gradle wrapper within android sdk might need to update your android sdk</code></p>
+<p>Para corrigir isso é simples, crie a estrutura de pastas exibido no comando abaixo e execute o gradle wapper:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd c:\android-sdk\tools</span><br><span class="line">mkdir templates</span><br><span class="line">cd templates</span><br><span class="line">mkdir gradle</span><br><span class="line">cd gradle</span><br><span class="line">mkdir wrapper</span><br><span class="line">cd wrapper</span><br><span class="line">gradle wrapper</span><br></pre></td></tr></table></figure>
+<p>Isso irá resolver o problema do wrapper não encontrado. Caso ocorra mais algum erro com você poste nos comentários que vou atualizando este documento.</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/02/14/Conhecendo-Instalando-e-Configurando-o-servico-de-HTTP-e-Proxy-Nginx/" data-toggle="tooltip" data-placement="top" title="Conhecendo, Instalando e Configurando o serviço de HTTP e Proxy Nginx">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/01/23/Instalando-e-configurando-RabbitMQ-na-AWS/" data-toggle="tooltip" data-placement="top" title="Instalando e configurando RabbitMQ na AWS">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Android SDK" title="Android SDK">Android SDK</a>
+                        
+                          <a class="tag" href="/tags/#Java JDK" title="Java JDK">Java JDK</a>
+                        
+                          <a class="tag" href="/tags/#cordova build" title="cordova build">cordova build</a>
+                        
+                          <a class="tag" href="/tags/#Gradle" title="Gradle">Gradle</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

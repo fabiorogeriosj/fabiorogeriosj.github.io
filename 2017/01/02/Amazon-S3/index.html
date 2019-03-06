@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Amazon S3 - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2017/01/02/Amazon-S3/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/storage.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#amazon s3" title="amazon s3">amazon s3</a>
+                        
+                    </div>
+                    <h1>Amazon S3</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        02/01/2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>O <a href="https://aws.amazon.com/pt/s3/" target="_blank" rel="noopener">Amazon Simple Storage Service</a>, conhecido como <a href="https://aws.amazon.com/pt/s3/" target="_blank" rel="noopener">Amazon S3</a>, é um armazenamento de objetos baseado em web service para armazenar e recuperar qualquer volume de dados.</p>
+<p>Um caso bem conhecido é o uso do Amazon S3 pela Netflix, onde eles utilizam como um ecosistema para armazenar dados de backup e ferramentas de sua estrutura.</p>
+<p>No evento AWS re:Invent de 2016 a diretora de big data da Netflix, Eva Tse, apresentou sua arquitetura utilizando o Amazon S3 e relatou alguns números interessantes, por exemplo ela apresentou que é trafegado mais de 100 Terabyte para o Amazon S3 por dia 😱😱😱😱!<br>Você pode ver esta <a href="https://www.youtube.com/watch?v=o52vMQ4Ey9I" target="_blank" rel="noopener">palestra na integra aqui</a>.</p>
+<p>Realmente é bem simples armazenar arquivos estáticos no Amazon S3, iremos ver de forma prática como fazer isso criando uma aplicação simples, em JavaScript utilizando NodeJS, para fazer upload de fotos! Antes vamos ver algumas vantagens destacadas pela AWS sobre o S3 que é importante você saber:</p>
+<ul>
+<li><strong>Simples:</strong> O Amazon S3 é simples de usar e tem um console de gerenciamento e uma aplicação móvel, ambos baseados na web. O S3 também disponibiliza APIs REST e SDKs completos para a integração fácil com tecnologias de terceiros.</li>
+<li><strong>Resiliente:</strong> O Amazon S3 proporciona infraestrutura durável para armazenar dados importantes e foi projetado para oferecer durabilidade de objetos de 99,999999999%. Seus dados são armazenados com redundância em várias instalações e diversos dispositivos em cada instalação.</li>
+<li><strong>Escalável:</strong> Com o Amazon S3, você pode armazenar a quantidade de dados desejada e acessá-los quando precisar. Não é mais necessário adivinhar as necessidades futuras de armazenamento. Você pode aumentar e diminuir a escala de acordo com a necessidade, aumentando consideravelmente a agilidade empresarial.</li>
+<li><strong>Seguro:</strong> O Amazon S3 oferece suporte à transferência de dados usando SSL e criptografia automática dos dados após o upload. Você também pode configurar políticas de bucket para gerenciar permissões de objetos e controlar o acesso a seus dados usando o AWS Identity e Access Management (IAM).</li>
+<li><strong>Disponível:</strong> O Amazon S3 Standard foi concebido para proporcionar uma disponibilidade de objetos de até 99,99% durante um determinado ano e tem o respaldo do Acordo de nível de serviço do Amazon S3, garantindo que você possa contar com o serviço sempre que precisar. E você também pode escolher a região da AWS para otimizar a latência, minimizar os custos ou cumprir requisitos normativos.</li>
+<li><strong>Baixo custo:</strong> O Amazon S3 permite armazenar grandes quantidades de dados com custo muito baixo. Com o uso de políticas de ciclo de vida, você pode definir políticas para migrar automaticamente dados para a categoria Padrão – Acesso ocasional e para o Amazon Glacier, conforme se aproximarem do fim da vida útil, para reduzir ainda mais os custos.</li>
+<li><strong>Transferência de dados simples:</strong> A Amazon oferece várias opções de migração de dados para a nuvem e possibilita a movimentação de grandes volumes de dados de e para o Amazon S3 com simplicidade e economia. Os clientes podem escolher entre métodos de conector otimizados para rede, baseados em disco físico ou de terceiros para importar ou exportar dados do S3.</li>
+<li><strong>Integrado:</strong> O Amazon S3 está altamente integrado a outros Serviços da AWS para facilitar a criação de soluções que usam vários Serviços da AWS. As integrações incluem os seguintes serviços: Amazon CloudFront, Amazon CloudWatch, Amazon Kinesis, Amazon RDS, Amazon Glacier, Amazon EBS, Amazon DynamoDB, Amazon Redshift, Amazon Route 53, Amazon EMR, Amazon VPC, Amazon KMS e AWS Lambda.</li>
+<li><strong>Fácil de gerenciar:</strong> Os recursos de gerenciamento de armazenamento do S3 permitem a adoção de uma abordagem controlada por dados à otimização do armazenamento, à segurança de dados e à eficiência do gerenciamento. Esses recursos de nível empresarial disponibilizam dados sobre os seus dados, para que você possa gerenciar o armazenamento com base nestes metadados personalizados.</li>
+</ul>
+<p>Existem vários <em>cases</em> conhecidos que utilizam o Amazon S3 para realizar backup e arquivamento, armazenamento e distribuição de conteúdo, análise de big data, hospedagem de sites estáticos entre outros.</p>
+<h3 id="Preco"><a href="#Preco" class="headerlink" title="Preço"></a>Preço</h3><p>A definição de preço do Amazon S3 é calculado pelo tanto de dados que você armazena e trafega levando em consideração a localização dos dados, como comentado no <a href="/2016/12/15/Amazon-Web-Services-AWS/#Regioes">post sobre AWS</a>. Existe também um nível gratuíto para novos cadastros onde você recebe 5 GB de armazenamento padrão do Amazon S3, 20.000 solicitações de Get, 2.000 solicitações de Put, 15 GB de transferência de dados para fora a cada mês, por um ano.</p>
+<p>Por exemplo vamos exemplificar que você não tem prioridade de latência em seu armazenamento, ou seja, não é necessário uma resposta rápida dos dados armazenados quando solicitados, sendo assim vamos escolher a região <a href="https://aws.amazon.com/pt/about-aws/global-infrastructure/" target="_blank" rel="noopener">Leste dos EUA (Norte da Virgínia)</a>. Estimando que vamos armazenar 800GB por mês e ter 10 mil request de PUT (upload de arquivos), 1 milhão de request de GET (visualização de arquivos) e o mesmo nível de transferência por mês então pagariamos $24 Dolares mês!<br>Se a aplicação for regional, ou seja para usuários brasileiros, e a latência é uma preocupação, podemos utilizar a região de São Paulo, sendo assim o custo por mês ficaria $57 Dolares.</p>
+<p>Para aplicações que armazena e trafega muitos dados devem ser analisadas com cuidado pois dependendo do objetivo de armazenamento existem outras opções dentro da plataforma AWS que podem ter um custo bem menor. Por exemplo caso sua aplicação é realizar backups e que o tempo de acesso pode ser entre 1 a 5 minutos você pagaria para a mesma estimativa descrita acima $3 Dolares na região dos EUA e $7 Dolares em São Paulo.</p>
+<h2 id="Na-pratica"><a href="#Na-pratica" class="headerlink" title="Na prática"></a>Na prática</h2><p>Para nossa prática vamos criar uma aplicação web que tem por objetivo postar fotos de forma pública, ou seja, todos podem ver as fotos postadas sem restrições. Se essa fosse uma aplicação real precisariamos pelo menos garantir um login, por questões de direitos e responsabilidades sobre as imagens publicadas, mas como não é o caso vamos deixar de forma pública!</p>
+<p>irei utilizar como linguagem de programação o JavaScript utilizando a plataforma NodeJS. Como o objetivo é praticar o serviço Amazon S3 não vou me preocupar com segurança e outros detalhes primários como por exemplo registrar um domínio e utilizar um certificado SSL.</p>
+<p>Iremos utilizar apenas uma máquina em <a href="/2016/12/16/Amazon-EC2/">Linux (Amazon EC2)</a> e o serviço Amazon S3.</p>
+<p>Para utilizar os serviços da Amazon de forma programada, ou seja, não utilizar o console da Amazon mas sim, por exemplo, uma linguagem de programação, precisamos ter uma chave de acesso e uma chave secreta. A forma mais segura é utilizar o serviço <a href="/2017/01/03/AWS-Identity-Access-Management/">IAM Users</a> para criar nossa chave.</p>
+<p>Com as chaves anotadas crie um arquivo de credenciais em ~/.aws/credentials no Mac/Linux ou em C:\Users\USERNAME.aws\credentials no Windows com a seguinte estrutura:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[default]</span><br><span class="line">aws_access_key_id = sua_chave_de_acesso</span><br><span class="line">aws_secret_access_key = sua_chave_secreta</span><br></pre></td></tr></table></figure>
+<p>Veja mais detalhes de como começar usando o <a href="https://aws.amazon.com/pt/sdk-for-node-js/" target="_blank" rel="noopener">AWS no Node aqui</a>.</p>
+<p>Em Amazon S3 temos que criar um repositório, conhecido como Bucket, para fazer upload e realizar consultas de objetos, comumente chamado de objects.</p>
+<p>Ao entrar em Amazon S3 clique em “Create Bucket”, você deve informar um nome, este nome deve ser único, ou seja, não deve estar em uso, e depois selecionar a região onde será armazenado seus objetos.</p>
+<p><img src="/img/s31.jpg" alt=""></p>
+<p>A definição da região influencia diretamente o valor que você irá pagar por mês e também a latência dos objetos, irei fazer um teste da forma mais lenta até a forma mais rápida.</p>
+<p>Vamos ao código e em seguida a explicação das linhas. Você também pode ver o projeto completo no <a href="https://github.com/fabiorogeriosj/example-amazon-s3" target="_blank" rel="noopener">meu GitHub</a>.</p>
+<p>Existe um módulo em NPM para acessar de forma simples os métodos da API do Amazon S3, então nosso trabalho aqui fica simples :)</p>
+<p>Iremos utilizar apenas 2 métodos da API, porem existe outros métodos que você precisa conhecer, para isso veja a documentação do <a href="http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html" target="_blank" rel="noopener">AWS SDK S3</a>.</p>
+<p>app.js:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> AWS = <span class="built_in">require</span>(<span class="string">'aws-sdk'</span>);</span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> multer  = <span class="built_in">require</span>(<span class="string">'multer'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"><span class="keyword">var</span> upload = multer(&#123; <span class="attr">dest</span>: <span class="string">'./upload/'</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//instanciando classe S3</span></span><br><span class="line"><span class="keyword">var</span> s3 = <span class="keyword">new</span> AWS.S3();</span><br><span class="line"><span class="keyword">var</span> bucketFotos = <span class="string">'appfotos'</span>;</span><br><span class="line"><span class="keyword">var</span> urlBucketFotos = <span class="string">'https://s3-us-west-2.amazonaws.com/appfotos/'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//config express</span></span><br><span class="line">app.use(express.static(__dirname));</span><br><span class="line">app.set(<span class="string">'views'</span>, __dirname);</span><br><span class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'jade'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//rotas</span></span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> params = &#123;</span><br><span class="line">    Bucket: bucketFotos,</span><br><span class="line">    EncodingType: <span class="string">'url'</span></span><br><span class="line">  &#125;;</span><br><span class="line">  s3.listObjects(params, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err, err.stack);</span><br><span class="line">        res.render(<span class="string">'index'</span>, &#123; <span class="attr">erro</span>: err &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res.render(<span class="string">'index'</span>, &#123; <span class="attr">dados</span>: data, <span class="attr">url</span>: urlBucketFotos &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/'</span>, upload.single(<span class="string">'foto'</span>), <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> stream = fs.createReadStream(req.file.path);</span><br><span class="line">  <span class="keyword">var</span> ext = path.extname(req.file.originalname);</span><br><span class="line">  <span class="keyword">var</span> params = &#123;</span><br><span class="line">    Bucket: bucketFotos,</span><br><span class="line">    Key: req.file.filename + ext,</span><br><span class="line">    Body: stream,</span><br><span class="line">    ACL: <span class="string">'public-read-write'</span></span><br><span class="line">  &#125;;</span><br><span class="line">  s3.upload(params, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)&#123;</span><br><span class="line">      res.render(<span class="string">'index'</span>, &#123; <span class="attr">erro</span>: err &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      res.redirect(<span class="string">'/'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">80</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'appfotos rodando na porta 80!'</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>Da linha 1 à 7 está sendo carregando os módulos do NodeJS.<br>Na linha 11 foi criado uma variável para informar o nome do Bucket que vamos utilizar.<br>Na linha 12 também foi criado uma variável para informar a url do Bucket pois o objetivo é acessar as imagens direto do S3.<br>Da linha 15 à 17 é configurado algumas propriedades do Express (modulo para prover as views e rotas da aplicação).<br>Da linha 20 à linha 33 temos uma rota, que aceita request do tipo GET, que primeiro executa o método <code>listObjects</code> do módulo aws-sdk e após receber seu retorno responde para o browser enviando os dados recebidos e a variável url.<br>Da linha 35 à 51 temos a rota de POST onde será recebido um arquivo, em seguida enviamos ao S3 pelo método <code>upload</code>.</p>
+<p>index.jade:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">  head</span><br><span class="line">    meta(charset='utf-8')</span><br><span class="line">    title Exemplo Amazon S3</span><br><span class="line">  body</span><br><span class="line">    p= erro</span><br><span class="line">    form(action="/", method="post", enctype="multipart/form-data")</span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"foto"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Enviar foto"</span>&gt;</span></span><br><span class="line">    h1 Fotos</span><br><span class="line">    each foto in dados.Contents</span><br><span class="line">      img(src= url + foto.Key, style="height: 200px;")</span><br></pre></td></tr></table></figure></p>
+<p>Na view apenas criamos um form simples e iteramos as fotos recebidas do S3!</p>
+<p>Vejamos o resultado:</p>
+<p><img src="/img/amazons3_1.gif" alt=""></p>
+<p>Existe um recurso para acelerar as transferências de objetos aos Buckets deixando 300% mais rápido, porem isso acarreta em um custo adicional por GB transferido.</p>
+<p><img src="/img/s32.jpg" alt=""></p>
+<p>Vamos testar novamente com o Transfer Acceleration habilitado:</p>
+<p><img src="/img/amazons3_2.gif" alt=""></p>
+<p>É notável o aumento da velocidade na hora de ser listado as imagens do Bucket. Podemos melhorar ainda mais esta performance criando um Bucket em São Paulo para diminuir a latência.</p>
+<p><img src="/img/s33.jpg" alt=""></p>
+<p>Em seguida alteramos a url de acesso para o novo Bucket e o nome do Bucket:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bucketFotos = <span class="string">'appfotosp'</span>;</span><br><span class="line"><span class="keyword">var</span> urlBucketFotos = <span class="string">'https://s3-sa-east-1.amazonaws.com/appfotosp/'</span>;</span><br></pre></td></tr></table></figure>
+<p>Testando agora com o Bucket em São Paulo:</p>
+<p><img src="/img/amazons3_3.gif" alt=""></p>
+<p>Sem o acelerador já melhorou significativamente na visualização. Vamos habilitar o acelerador para o Bucket de São Paulo e alterar o url.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> urlBucketFotos = <span class="string">'appfotosp.s3-accelerate.amazonaws.com'</span>;</span><br></pre></td></tr></table></figure>
+<p>O resultado:</p>
+<p><img src="/img/amazons3_4.gif" alt=""></p>
+<p>Podemos ver uma pequena melhora. Como a foto primeiro é enviado para a instância do EC2 e depois enviado ao Amazon S3, seria possível melhor ainda mais criando a instância EC2 em São Paulo, lembrando que no exemplo das imagens a instância estava no EUA.</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/01/03/AWS-Identity-Access-Management/" data-toggle="tooltip" data-placement="top" title="AWS Identity & Access Management">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/12/16/Amazon-EC2/" data-toggle="tooltip" data-placement="top" title="Amazon EC2">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#amazon s3" title="amazon s3">amazon s3</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

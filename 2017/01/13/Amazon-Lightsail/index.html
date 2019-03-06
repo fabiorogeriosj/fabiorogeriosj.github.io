@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Estudando a um bom tempo tecnologias posso dizer que acredito que o mundo pode ser mudado e moldado pela tecnologia!">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Amazon Lightsail - Fábio Rogério SJ | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2017/01/13/Amazon-Lightsail/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Fábio Rogério SJ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/cursos/">Cursos</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Sobre</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/amazonlightsail.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#amazon lightsail" title="amazon lightsail">amazon lightsail</a>
+                        
+                    </div>
+                    <h1>Amazon Lightsail</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Postado por Fábio Rogério SJ em
+                        13/01/2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Para desenvolvedores iniciantes, e até mesmo experientes, nem sempre é simples e trivial trabalhar com a camada de infra das aplicações desenvolvidas. Hoje existe diversas plataformas de computação em núvem como AWS Amazon, Google Cloud, Microsoft Azure, Heroku entre outras.</p>
+<p>Começar a trabalhar com os diferentes serviços que cada plataforma oferece pode precisar de um tempo para maturidade e práticas. Para diminuir este tempo a Amazon lançou em 2016 o serviço <a href="https://amazonlightsail.com/" target="_blank" rel="noopener">Amazon Lightsail</a>, que é uma maneira mais fácil para começar com servidores virtuais na nuvem.</p>
+<p>Definição do Amazon Lightsail segundo site oficial:</p>
+<blockquote>
+<p>Amazon Lightsail é a maneira mais fácil de começar com AWS para desenvolvedores que precisam de uma solução simples de servidor virtual privado (VPS). O Lightsail fornece aos desenvolvedores capacidade de computação, armazenamento, configurações de rede e recursos para implantar e gerenciar sites e aplicativos Web. Lightsail inclui tudo o que você precisa para lançar seu projeto rapidamente como: uma máquina virtual, armazenamento SSD, transferência de dados, gerenciamento de DNS e um IP estático - por um preço mensal baixo e previsível.</p>
+</blockquote>
+<p>Recomendo este serviço para quem está iniciando em servidores virtuais privados, pois rápidamente você pode ter sua aplicação publicada.</p>
+<h2 id="Preco"><a href="#Preco" class="headerlink" title="Preço"></a>Preço</h2><p>O Serviço trabalha com planos, onde cada plano tem suas limitações de memória, processador, espaço em disco SSD e tranferência. Você pode ver os planos no <a href="https://amazonlightsail.com/pricing/" target="_blank" rel="noopener">site oficial</a>.</p>
+<h2 id="Pratica"><a href="#Pratica" class="headerlink" title="Prática"></a>Prática</h2><p>Podemos fazer três coisas neste serviço sendo:</p>
+<ul>
+<li><strong>Criar uma nova instância</strong>: Maquinas virtuais utilizando Linux.</li>
+<li><strong>Criar IP estático</strong>: Para facilitar a troca de servidores sem redefinir o IP.</li>
+<li><strong>Gerenciar DNS</strong>: Gerenciar os DNS dos domónios.</li>
+</ul>
+<p>Vamos criar um servidor para rodar NodeJS e criar um domínio para responder a este servidor.</p>
+<p>Em “Create instance” podemos escolher em instalar a maquina já com algum app instalado (exemplo wordpress) ou instalar um servidor apenas com o S.O. Vamos escolher Node.js:</p>
+<p><img src="/img/amazonlightsail1.jpg" alt=""></p>
+<p>Em seguida definimos o plano, se necessário você pode trocar a área da região e escolher um nome para sua instancia:</p>
+<blockquote>
+<p>No começo de 2017 apenas a região Norte da Virginia estava em operação para este serviço.</p>
+</blockquote>
+<p><img src="/img/amazonlightsail2.jpg" alt=""></p>
+<p>Ao clicar em “Create” aguarde alguns minutos até o processo liberar sua instância. Você pode gerenciar a maquina tanto por SSH direto pelo browser ou baixar a chave de acesso (pem) e acessar via terminal (linux) ou via putty (windows).</p>
+<p>Se você acessar seu PUBLIC IP verá que já esta rodando um site (html apresentação bitnami) na porta 80, iremos parar este serviço para que nossa aplicação rode nesta porta.</p>
+<p>Agora vamos criar um domínio voltando ao dashboard inicial e clicando em “Create other resources” &gt; DNS Zone &gt; Digite o nome do seu domínio. Vou utilizar um domínio que tenho para teste:</p>
+<p><img src="/img/amazonlightsail3.jpg" alt=""></p>
+<p>Ao criar você poderá ver o “Nameservers” que deverá inserir no provedor do seu domínio, no meu caso preenchi os 4 nameservers no Godaddy.</p>
+<p>Vamos também criar outros “Records” para direcionar nosso domínio a nova instância:</p>
+<p><img src="/img/amazonlightsail4.jpg" alt=""></p>
+<p>Após aguardar alguns minutos, até o DNS ser propagado você já poderá ver seu servidor rodando no domínio configurado (página html demo).</p>
+<p>Nosso objetivo neste post é criar um servidor em NodeJS utilizando o express com SSL (https). Todos os meus posts focam em utilizar SSL pois hoje já é possível criar SSL de graça e a segurança de sua aplicação é tão importante quanto a regra de negócio da mesma.</p>
+<p>Para criar um certificado SSL free veja este post <a href="/2017/01/11/Criar-certificado-SSL-HTTPS-com-Let-s-encrypt/">(Criar certificado SSL (HTTPS) com Let’s encrypt)</a>, em seguida vamos conectar via SSH em nossa instância:</p>
+<p><img src="/img/amazonlightsail5.jpg" alt=""></p>
+<p>Ao conectar você verá o terminal, vamos então logar com usuário root para dar um stop do servidor que está rodando na porta 80, para isso digite os comandos abaixo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -</span><br><span class="line">cd /opt/bitnami/</span><br><span class="line">./ctlscript.sh stop apache</span><br></pre></td></tr></table></figure>
+<p>Se você testar o domínio configurado, no meu caso <a href="http://bugph.com" target="_blank" rel="noopener">http://bugph.com</a>, vai ver que não está mais funcionando, vamos então criar nosso simples app com NodeJS. Vá até a pasta <code>/opt</code> e crie uma pasta chamada <code>appweb</code> em seguida entre nesta pasta e instale o módulo <code>express</code> do NodeJS:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">mkdir appweb</span><br><span class="line">cd appweb</span><br><span class="line">npm install express</span><br></pre></td></tr></table></figure>
+<p>Depois de instalado crie um arquivo <code>app.js</code> com o seguinte código:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">var</span> https = <span class="built_in">require</span>(<span class="string">'https'</span>);</span><br><span class="line"><span class="keyword">var</span> privateKey  = fs.readFileSync(<span class="string">'./domain-key.txt'</span>, <span class="string">'utf8'</span>);</span><br><span class="line"><span class="keyword">var</span> certificate = fs.readFileSync(<span class="string">'./domain-crt.txt'</span>, <span class="string">'utf8'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> credentials = &#123;<span class="attr">key</span>: privateKey, <span class="attr">cert</span>: certificate&#125;;</span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ensureSecure</span>(<span class="params">req, res, next</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(req.secure)&#123;</span><br><span class="line">    <span class="keyword">return</span> next();</span><br><span class="line">  &#125;;</span><br><span class="line">  res.redirect(<span class="string">'https://'</span> + req.hostname + req.url);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">app.all(<span class="string">'*'</span>, ensureSecure);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">  res.send(<span class="string">'&lt;h2&gt;Bugph rodando com SSL&lt;/h2&gt;'</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> httpServer = http.createServer(app);</span><br><span class="line"><span class="keyword">var</span> httpsServer = https.createServer(credentials, app);</span><br><span class="line"></span><br><span class="line">httpServer.listen(<span class="number">80</span>);</span><br><span class="line">httpsServer.listen(<span class="number">443</span>);</span><br></pre></td></tr></table></figure>
+<p>Na linha 4 e 5 estamos carregando o arquivo do certificado SSL, se você seguiu <a href="/2017/01/11/Criar-certificado-SSL-HTTPS-com-Let-s-encrypt/">este post</a> sabe o que estou falando :). Os certificados devem estar na mesma pasta do <code>app.js</code>.</p>
+<p>O método <code>ensureSecure()</code> foi criado para servir de redirecionador caso o usuário acessou nosso site usando <code>http://</code>.</p>
+<p>Na linha 18 está fornçando que todas as requisições primeiro executa a função de validação.</p>
+<p>Na linha 20 até 22 temos uma rota simples que quando acessado (<code>bugph.com/</code>) irá retornar um simples <code>h2</code> com uma mensagem.</p>
+<p>As demais linhas são para criar o server e rodar tanto na porta 80 quando na porta 443 (https).</p>
+<p>Feito isso você já pode testar rodando o script:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node app.js</span><br></pre></td></tr></table></figure>
+<p>Se tudo deu certo e nada deu errado :) você deve ter visto o resultado parecido com o meu:</p>
+<p><img src="/img/amazonlightsail6.jpg" alt=""></p>
+<hr>
+<p>Em sua instância, No Amazon Lightsail, você também pode verificar alguns monitoramentos como uso de CPU, rede e status:</p>
+<p><img src="/img/amazonlightsail7.jpg" alt=""></p>
+<p>Pode verificar dados de seu IP e as regras do Firewall, por exemplo se você for rodar uma aplicação na porta 8080 será necessário adicionar uma nova regra no firewall:</p>
+<p><img src="/img/amazonlightsail8.jpg" alt=""></p>
+<p>E também pode criar snapshot, que é um backup de sua instância que poderá ser recuperado caso necessário. Este serviço gera custo conforme descrito no <a href="https://amazonlightsail.com/features/" target="_blank" rel="noopener">site oficial do Amazon Lightsail</a>:</p>
+<blockquote>
+<p>Proteja seus dados, clone seu servidor com Snapshot Lightsail. Crie e gerencie Snapshot por $0,05/GB por mês.</p>
+</blockquote>
+<p>E concluindo os recursos da instância você pode ver o histórico de alterações na mesma e excluir difinitivamente sua maquina.</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/01/16/AWS-Elastic-Beanstalk/" data-toggle="tooltip" data-placement="top" title="AWS Elastic Beanstalk">&larr; Post Anterior</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/01/12/AWS-Lambda/" data-toggle="tooltip" data-placement="top" title="AWS Lambda">Próximo Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#cloud computing" title="cloud computing">cloud computing</a>
+                        
+                          <a class="tag" href="/tags/#aws amazon" title="aws amazon">aws amazon</a>
+                        
+                          <a class="tag" href="/tags/#amazon lightsail" title="amazon lightsail">amazon lightsail</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://mobileui.github.io" target="_blank">MobileUI</a></li>
+                    
+                        <li><a href="http://ionicframework.com" target="_blank">Ionic Framework</a></li>
+                    
+                        <li><a href="http://ngCordova.com" target="_blank">ngCordova</a></li>
+                    
+                        <li><a href="https://cordova.apache.org/" target="_blank">Apache Cordova</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//fabiorogriosj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/fabiorogeriosj">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/fábio-rogério-sj-4a49b722">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Fábio Rogério SJ 2019
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://fabiorogeriosj.com.br/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!-- <script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script> -->
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-12168350-1';
+    var _gaDomain = 'fabiorogeriosj.com.br';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="http://fabiorogeriosj.com.br/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
