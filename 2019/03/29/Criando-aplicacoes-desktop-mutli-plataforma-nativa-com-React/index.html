@@ -13,11 +13,11 @@
 
     <title>
         
-          Migrando do Nativo para híbrido: Case da Greenmile utilizando Apache Cordova + React + Redux - Fábio Rogério SJ | Blog
+          Criando aplicações desktop mutli-plataforma nativa com React - Fábio Rogério SJ | Blog
         
     </title>
 
-    <link rel="canonical" href="http://fabiorogeriosj.com.br/2018/02/22/Migrando-do-Nativo-para-hibrido-Case-da-Greenmile-utilizando-Apache-Cordova-React-Redux/">
+    <link rel="canonical" href="http://fabiorogeriosj.com.br/2019/03/29/Criando-aplicacoes-desktop-mutli-plataforma-nativa-com-React/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -176,7 +176,7 @@
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('/img/bannergcon.jpg')
+        background-image: url('/img/react2.jpg')
     }
 </style>
 <header class="intro-header" >
@@ -186,20 +186,20 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                          <a class="tag" href="/tags/#Proton Native" title="Proton Native">Proton Native</a>
+                        
                           <a class="tag" href="/tags/#React" title="React">React</a>
                         
-                          <a class="tag" href="/tags/#Apache Cordova" title="Apache Cordova">Apache Cordova</a>
+                          <a class="tag" href="/tags/#desktop" title="desktop">desktop</a>
                         
-                          <a class="tag" href="/tags/#Redux" title="Redux">Redux</a>
-                        
-                          <a class="tag" href="/tags/#Talk" title="Talk">Talk</a>
+                          <a class="tag" href="/tags/#Cross platform" title="Cross platform">Cross platform</a>
                         
                     </div>
-                    <h1>Migrando do Nativo para híbrido: Case da Greenmile utilizando Apache Cordova + React + Redux</h1>
+                    <h1>Criando aplicações desktop mutli-plataforma nativa com React</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Postado por Fábio Rogério SJ em
-                        22/02/2018
+                        29/03/2019
                     </span>
                 </div>
             </div>
@@ -218,8 +218,24 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>Uma talk que apresenta um <em>Case</em> bem bacana da equipe do <a href="http://greenmile.com/pt/greenmile/" target="_blank" rel="noopener">Greenmile</a> sobre o monivo da migração do app nativo para híbrido utilizando React.js.</p>
-<p><a href="https://www.infoq.com/br/presentations/de-nativo-ao-hibrido-escalando-mobile-na-greenmile?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" target="_blank" rel="noopener">Assistir Talk: GCon - De nativo ao híbrido: escalando mobile na GreenMile</a></p>
+                <p>Assim como o ElectronJS, o Proton JS cria aplicações para desktop utilizando tecnologia web, neste caso é utilizado apenas o Javascript, através do React, pois os elementos de interface são nativos, um diferecial comparando com ElectronJS.</p>
+<p>Neste artigo fiz um pequeno experimento para testar os principais componentes de interface.</p>
+<blockquote>
+<p>Resultado: Não gostei muito do processo de build e do resultado final, mas para aplicações simples ele se faz mais útil do que Electron, pelo fato de ser mais leve e não precisar do Chomium para Linux, ja para Windows essa dependencia ainda é necessária.</p>
+</blockquote>
+<p>Projeto demo em: <a href="https://github.com/fabiorogeriosj/react-desktop-proton" target="_blank" rel="noopener">https://github.com/fabiorogeriosj/react-desktop-proton</a></p>
+<p><img src="/img/print-proton-linux.png" alt="No Linux"><br><img src="/img/print-proton-win.png" alt="No Windows"></p>
+<h2 id="Como-fiz-essa-demo"><a href="#Como-fiz-essa-demo" class="headerlink" title="Como fiz essa demo"></a>Como fiz essa demo</h2><p>No Linux (Fedora):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf install gtk3-devel gstreamer-devel clutter-devel webkitgtk3-devel libgda-devel gobject-introspection-devel</span><br><span class="line">sudo dnf install &quot;gtk+&quot;</span><br><span class="line">sudo dnf install gcc-c++</span><br></pre></td></tr></table></figure>
+<p>No Windows: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --global --production windows-build-tools</span><br></pre></td></tr></table></figure>
+<p>No Mac:</p>
+<p><em>– Não precisa de nada, mac já tem tudo que precisa! –</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-proton-app</span><br><span class="line">create-proton-app my-app</span><br><span class="line">cd my-app</span><br><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+<h2 id="Para-quem-usa-StandarJS"><a href="#Para-quem-usa-StandarJS" class="headerlink" title="Para quem usa StandarJS"></a>Para quem usa StandarJS</h2><p>Para quem usa <a href="https://standardjs.com" target="_blank" rel="noopener">StandarJS</a> instale o <code>babel-eslint</code> para não ficar acusando erros das novas features do JS (ES Next).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-eslint --save-dev</span><br></pre></td></tr></table></figure>
+<p>E adicione em seu package.json:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;standard&quot;: &#123;</span><br><span class="line">    &quot;parser&quot;: &quot;babel-eslint&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
                 <hr>
@@ -228,13 +244,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2018/02/26/Container-Docker-com-Android-SDK-para-projetos-Apache-Cordova/" data-toggle="tooltip" data-placement="top" title="Container Docker com Android SDK para projetos Apache Cordova">&larr; Post Anterior</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/02/20/Trabalhando-com-Docker-container-de-Windows/" data-toggle="tooltip" data-placement="top" title="Trabalhando com Docker container de Windows">Próximo Post &rarr;</a>
+                            <a href="/2019/03/06/Instalando-e-configurando-Android-SDK-para-projetos-Apache-Cordova-no-Linux/" data-toggle="tooltip" data-placement="top" title="Instalando e configurando Android SDK para projetos Apache Cordova no Linux">Próximo Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -267,13 +279,13 @@
                     <h5><a href="/tags/">TAGS</a></h5>
                     <div class="tags">
                        
+                          <a class="tag" href="/tags/#Proton Native" title="Proton Native">Proton Native</a>
+                        
                           <a class="tag" href="/tags/#React" title="React">React</a>
                         
-                          <a class="tag" href="/tags/#Apache Cordova" title="Apache Cordova">Apache Cordova</a>
+                          <a class="tag" href="/tags/#desktop" title="desktop">desktop</a>
                         
-                          <a class="tag" href="/tags/#Redux" title="Redux">Redux</a>
-                        
-                          <a class="tag" href="/tags/#Talk" title="Talk">Talk</a>
+                          <a class="tag" href="/tags/#Cross platform" title="Cross platform">Cross platform</a>
                         
                     </div>
                 </section>
